@@ -2,8 +2,10 @@ masthead: "Il Corriere di Qui"
 tagline: "Tutte le notizie che contano. E anche quelle che non contano."
 subtagline: "Indipendenti. Quasi."
 ticker:
-  - "Il sindaco sostituisce i lampioni con candele «per un'atmosfera più romantica»"
-  - "Nuovo record: banda larga a 2 Mbps raggiunta in 3 comuni"
+  - "Crisi energetica: il sindaco sostituisce i lampioni con candele «per un'atmosfera più romantica»"
+  - "Banda larga in città: raggiunto nuovo record di 2 Mbps in 3 quartieri."
+  - "Intervento immediato dei tecnici per mischiare i cavi in fibra e riportarci tutti agli anni '90."
+  - "Piove a dirotto, ma dai rubinetti esce aria: il miracolo della gestione idrica che trasforma l’acqua in disservizio."
 sections:
   - { slug: "attualita", label: "Attualità" }
   - { slug: "tech", label: "Tech" }
