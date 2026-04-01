@@ -83,8 +83,6 @@ const categories = [
 
 const activeCategory = ref(route.query.categoria ?? null)
 
-console.log('active category:', activeCategory.value)
-
 const filtered = computed(() => {
   if (!activeCategory.value) return articles.value ?? []
   return (articles.value ?? []).filter(a => a.categoria === activeCategory.value)
