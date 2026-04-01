@@ -1,0 +1,29 @@
+title: "Chi siamo"
+hero:
+  heading: "Chi siamo"
+  image: "/images/redazione.png"
+bio:
+  paragraphs:
+    - "Il Corriere di Qui è il giornale locale che nessuno ha chiesto ma di cui tutti avevano bisogno."
+    - "Fondato da un gruppo di persone con troppo tempo libero e un abbonamento scaduto a un quotidiano nazionale, il Corriere di Qui copre l'attualità cittadina con rigore giornalistico, spirito critico e una certa tendenza a trovare tutto vagamente assurdo."
+    - "Ci occupiamo di politica locale, lavori pubblici, tecnologia applicata al malgoverno e di tutto ciò che accade nella città e che gli altri giornali non ritengono abbastanza importante. Noi riteniamo tutto abbastanza importante. Forse troppo."
+    - "La nostra redazione è composta da giornalisti, ex giornalisti, aspiranti giornalisti e almeno una persona che non ha mai capito bene cosa fa qui ma che porta i cornetti il venerdì mattina, il che la rende indispensabile."
+team:
+  heading: "La redazione"
+  items:
+    - name: "Cosimo Frattesi"
+      role: "Direttore responsabile, cronaca e cantieri"
+      note: "In città dal 1987. Ha visto aprire e chiudere più cantieri di quanti ne ricordi. Li ricorda tutti."
+    - name: "Maddalena Curreli"
+      role: "Ambiente, società e raccolta differenziata"
+      note: "Ha letto il manuale della differenziata tre volte. Ancora non ha capito il secco residuo non riciclabile. Come tutti."
+    - name: "Ghiotto Di Chinotto"
+      role: "Tech, innovazione e digitalizzazione della pubblica amministrazione"
+      note: "Segue da anni il piano triennale per l'informatizzazione del Comune. Ha tutto il tempo del mondo."
+mission:
+  heading: "La nostra missione"
+  text: "Raccontare la città per quella che è, non per quella che vorrebbe sembrare. Con rispetto per i fatti, scarso rispetto per le conferenze stampa inutili e nessuna pazienza per i comunicati scritti dall'AI."
+contact:
+  heading: "Scrivici"
+  text: "Hai una segnalazione, un'indiscrezione o semplicemente vuoi lamentarti di qualcosa? Siamo qui."
+  email: "redazione@ilcorrierediqui.it"

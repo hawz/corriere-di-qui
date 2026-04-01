@@ -1,0 +1,11 @@
+masthead: "Il Corriere di Qui"
+tagline: "Tutte le notizie che contano. E anche quelle che non contano."
+subtagline: "Indipendenti. Quasi."
+ticker:
+  - "Il sindaco sostituisce i lampioni con candele «per un'atmosfera più romantica»"
+  - "Nuovo record: banda larga a 2 Mbps raggiunta in 3 comuni"
+sections:
+  - { slug: "attualita", label: "Attualità" }
+  - { slug: "tech", label: "Tech" }
+  - { slug: "satira", label: "Satira" }
+  - { slug: "opinioni", label: "Opinioni" }
