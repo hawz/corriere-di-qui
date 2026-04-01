@@ -16,7 +16,7 @@ La scoperta è avvenuta per caso, come spesso accade con le scoperte più imbara
 
 Un lettore del Corriere di Qui — un ingegnere informatico in pensione che, per sua stessa ammissione, «ha troppo tempo libero e un carattere difficile» — ha inviato alla nostra redazione una analisi comparativa di undici comunicati stampa pubblicati dall'ufficio comunicazione del Comune negli ultimi quattro mesi.
 
-L'analisi era accompagnata da una nota introduttiva di tre pagine e da un foglio Excel con codice colore. Abbiamo letto entrambi. Ci ha voluto un po'.
+L'analisi era accompagnata da una nota introduttiva di tre pagine e da un foglio Excel con codice colore. Abbiamo letto entrambi. Ci è voluto un po'.
 
 Le conclusioni erano chiare: sette degli undici comunicati presentavano una struttura identica, con variazioni lessicali minime. Stessa apertura istituzionale («L'Amministrazione comunale comunica che»), stesso corpo centrale con elenco puntato di misure o aggiornamenti, stessa chiusura con formula di ringraziamento ai cittadini per «la collaborazione e la comprensione».
 
