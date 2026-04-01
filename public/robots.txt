@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.ilcorrierediqui.it/sitemap.xml
+Sitemap: https://corriere-di-qui.netlify.app/sitemap.xml

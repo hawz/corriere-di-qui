@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     files = []
   }
 
-  const siteUrl = 'https://www.ilcorrierediqui.it'
+  const siteUrl = 'https://corriere-di-qui.netlify.app'
   const today = new Date().toISOString()
 
   const staticUrls = [

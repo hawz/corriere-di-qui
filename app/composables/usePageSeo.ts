@@ -42,7 +42,7 @@ export const usePageSeo = ({
     twitterTitle: fullTitle,
     twitterDescription: metaDescription,
     twitterImage: metaImage.startsWith('http') ? metaImage : `${site.siteUrl}${metaImage}`,
-    ...(site.twitterHandle && { twitterSite: site.twitterHandle }),
+    // ...(site.twitterHandle && { twitterSite: site.twitterHandle }),
 
     // Articolo (solo se type === 'article')
     ...(type === 'article' && publishedAt && {
