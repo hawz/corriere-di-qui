@@ -1,5 +1,5 @@
 <template>
-  <div v-if="article" class="max-w-3xl mx-auto px-6 py-10">
+  <div v-if="article" class="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-10">
 
     <!-- Categoria + data -->
     <div class="flex items-center gap-3 mb-4">
@@ -12,12 +12,12 @@
     </div>
 
     <!-- Titolo -->
-    <h1 class="font-serif text-4xl md:text-5xl font-black leading-tight text-ink mb-4">
+    <h1 class="font-serif text-3xl md:text-5xl font-black leading-tight text-ink mb-4">
       {{ article.title }}
     </h1>
 
     <!-- Sottotitolo / descrizione -->
-    <p class="font-body italic text-xl text-muted leading-relaxed mb-6">
+    <p class="font-body italic text-lg md:text-xl text-muted leading-relaxed mb-6">
       {{ article.description }}
     </p>
 

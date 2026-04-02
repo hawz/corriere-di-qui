@@ -7,11 +7,12 @@
     </div>
 
     <!-- Hero immagine + bio -->
-    <div class="grid grid-cols-3 gap-10 border-b border-rule pb-10 mb-10">
-      <div v-if="page.hero?.image" class="col-span-1 aspect-[3/4] overflow-hidden bg-rule">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10
+            border-b border-rule pb-8 md:pb-10 mb-8 md:mb-10">
+      <div v-if="page.hero?.image" class="md:col-span-1 aspect-[3/4] overflow-hidden bg-rule">
         <img :src="page.hero.image" :alt="page.hero.heading" class="w-full h-full object-cover" />
       </div>
-      <div class="col-span-2 flex flex-col justify-center gap-4">
+      <div class="md:col-span-2 flex flex-col justify-center gap-4">
         <p v-for="(para, i) in page.bio?.paragraphs" :key="i" class="font-body text-lg leading-relaxed text-ink"
           :class="{ 'italic text-muted': i === 0 }">
           {{ para }}

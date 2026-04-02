@@ -13,19 +13,20 @@
     <div class="flex gap-4 mb-8 flex-wrap">
       <button class="text-xs uppercase tracking-widest font-sans pb-0.5 transition-colors" :class="activeCategory === null
         ? 'text-ink border-b-2 border-ink'
-        : 'text-muted hover:text-ink'" @click="activeCategory = null">
+        : 'text-muted hover:text-ink'" @click="setCategory(null)">
         Tutti
       </button>
       <button v-for="cat in categories" :key="cat.slug"
         class="text-xs uppercase tracking-widest font-sans pb-0.5 transition-colors" :class="activeCategory === cat.slug
           ? `${cat.activeClass} border-b-2 ${cat.borderClass}`
-          : 'text-muted hover:text-ink'" @click="activeCategory = cat.slug">
+          : 'text-muted hover:text-ink'" @click="setCategory(cat.slug)">
         {{ cat.label }}
       </button>
     </div>
 
-    <!-- Articolo in evidenza (primo della lista filtrata) -->
-    <div v-if="featured" class="grid grid-cols-2 gap-8 border-b border-rule pb-8 mb-8">
+    <!-- Articolo in evidenza -->
+    <div v-if="featured" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8
+            border-b border-rule pb-6 md:pb-8 mb-6 md:mb-8">
       <div v-if="featured.image" class="aspect-[4/3] overflow-hidden bg-rule">
         <img :src="featured.image" :alt="featured.title"
           class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
@@ -36,8 +37,8 @@
           {{ featured.categoria }}
         </span>
         <NuxtLink :to="`/news/${slug(featured)}`">
-          <h3 class="font-serif text-3xl font-black leading-tight text-ink
-                     hover:text-newsred transition-colors mb-3">
+          <h3 class="font-serif text-2xl md:text-3xl font-black leading-tight
+                 text-ink hover:text-newsred transition-colors mb-3">
             {{ featured.title }}
           </h3>
         </NuxtLink>
@@ -52,8 +53,8 @@
       </div>
     </div>
 
-    <!-- Griglia articoli restanti -->
-    <div class="grid grid-cols-3 gap-8">
+    <!-- Griglia articoli -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
       <BlogCard v-for="art in rest" :key="art.id" :article="art" />
     </div>
 
@@ -67,8 +68,11 @@
 
 <script setup>
 const route = useRoute()
+const router = useRouter()
 
-const page = await usePageData('pages/news')
+const { data: page } = await useAsyncData('news-page', () =>
+  queryCollection('pages').where('stem', '=', 'pages/news').first()
+)
 
 const { data: articles } = await useAsyncData('news-articles', () =>
   queryCollection('news').order('date', 'DESC').all()
@@ -81,7 +85,15 @@ const categories = [
   { slug: 'opinioni', label: 'Opinioni', activeClass: 'text-newsgreen', borderClass: 'border-newsgreen' },
 ]
 
-const activeCategory = ref(route.query.categoria ?? null)
+// Legge sempre dalla URL, non da un ref locale
+const activeCategory = computed(() => route.query.categoria ?? null)
+
+// Aggiorna la URL quando si cambia categoria
+function setCategory(slug) {
+  router.push({
+    query: slug ? { categoria: slug } : {},
+  })
+}
 
 const filtered = computed(() => {
   if (!activeCategory.value) return articles.value ?? []
