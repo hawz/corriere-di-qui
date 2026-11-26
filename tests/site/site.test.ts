@@ -6,6 +6,7 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import { SEZIONI } from '../../app/utils/sezioni'
 
 const NEWS = fileURLToPath(new URL('../../content/news', import.meta.url))
+const NEWS_PAGE = fileURLToPath(new URL('../../content/pages/news.yml', import.meta.url))
 const OUTPUT = fileURLToPath(new URL('../../.output/public', import.meta.url))
 const STATIC_PAGES = ['/', '/news', '/about']
 
@@ -21,6 +22,9 @@ const articles = readdirSync(NEWS, 'utf-8')
       sezione: SEZIONI.find(sezione => sezione.slug === data.sezione)?.label,
     }
   })
+
+// gray-matter legge solo il frontmatter: i delimitatori servono a fargli leggere il YAML intero.
+const newsPage = matter(`---\n${readFileSync(NEWS_PAGE, 'utf-8')}\n---`).data as { title: string, hero: { subheading: string } }
 
 const read = (file: string) => readFileSync(join(OUTPUT, file), 'utf-8')
 const pageFile = (path: string) => join(path, 'index.html')
@@ -73,6 +77,16 @@ describe('sito generato', () => {
     const body = read(pageFile(path)).replace(/<(header|footer)\b.*?<\/\1>/gs, '')
     expect(sezione, 'Sezione non in elenco').toBeDefined()
     expect(body).toMatch(new RegExp(`>\\s*${sezione}\\s*<`))
+  })
+
+  it('la testata di /news mostra titolo e sottotitolo di news.yml', () => {
+    const html = read(pageFile('/news'))
+    expect(html).toMatch(new RegExp(`<h2\\b[^>]*>\\s*${newsPage.title}\\s*</h2>`))
+    expect(html).toMatch(new RegExp(`<p\\b[^>]*>\\s*${newsPage.hero.subheading}\\s*</p>`))
+  })
+
+  it('la description di /news è il sottotitolo di news.yml', () => {
+    expect(read(pageFile('/news'))).toContain(`<meta name="description" content="${newsPage.hero.subheading}">`)
   })
 
   it('esiste la pagina 404', () => {

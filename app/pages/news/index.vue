@@ -70,9 +70,7 @@
 const route = useRoute()
 const router = useRouter()
 
-const { data: page } = await useAsyncData('news-page', () =>
-  queryCollection('pages').where('stem', '=', 'pages/news').first()
-)
+const page = await usePageData('pages/news')
 
 const { data: articles } = await useAsyncData('news-articles', () =>
   queryCollection('news').order('date', 'DESC').all()
