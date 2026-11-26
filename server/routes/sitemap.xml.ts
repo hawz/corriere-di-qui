@@ -1,46 +1,27 @@
-// server/routes/sitemap.xml.ts
+import { queryCollection } from '@nuxt/content/server'
+
+// Generata durante la build (vedi `nitro.prerender` in nuxt.config.ts).
 export default defineEventHandler(async (event) => {
-  setHeader(event, 'Content-Type', 'application/xml')
+  const { siteUrl } = useRuntimeConfig(event).public
+  const articles = await queryCollection(event, 'news').order('date', 'DESC').all()
 
-  // Leggi gli articoli dal filesystem direttamente
-  const { readdir } = await import('fs/promises')
-  const { resolve } = await import('path')
-
-  const blogDir = resolve('./content/blog')
-  let files: string[]
-
-  try {
-    files = await readdir(blogDir)
-  } catch {
-    files = []
-  }
-
-  const siteUrl = 'https://corriere-di-qui.netlify.app'
-  const today = new Date().toISOString()
-
-  const staticUrls = [
-    { loc: '/', priority: '1.0' },
-    { loc: '/blog', priority: '0.9' },
-    { loc: '/about', priority: '0.7' },
+  const urls = [
+    { path: '/', priority: '1.0' },
+    { path: '/news', priority: '0.9' },
+    { path: '/about', priority: '0.7' },
+    // `stem` è ciò con cui la pagina dell'Articolo lo cerca, quindi è il suo indirizzo.
+    ...articles.map(article => ({ path: `/${article.stem}`, priority: '0.8', lastmod: article.date })),
   ]
 
-  const articleUrls = files
-    .filter(f => f.endsWith('.md'))
-    .map(f => ({
-      loc: `/blog/${f.replace('.md', '')}`,
-      priority: '0.8',
-    }))
+  setHeader(event, 'Content-Type', 'application/xml')
 
-  const allUrls = [...staticUrls, ...articleUrls]
-
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${allUrls.map(u => `  <url>
-    <loc>${siteUrl}${u.loc}</loc>
-    <lastmod>${today}</lastmod>
-    <priority>${u.priority}</priority>
+${urls.map(url => `  <url>
+    <loc>${siteUrl}${url.path}</loc>${'lastmod' in url ? `
+    <lastmod>${url.lastmod}</lastmod>` : ''}
+    <priority>${url.priority}</priority>
   </url>`).join('\n')}
-</urlset>`
-
-  return xml
+</urlset>
+`
 })

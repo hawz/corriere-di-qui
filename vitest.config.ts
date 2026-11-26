@@ -1,9 +1,12 @@
 import { defineConfig } from 'vitest/config'
 
-// I test dei contenuti leggono i file del repo in Node, senza runtime Nuxt né build.
+// Due gruppi di test, in Node e senza runtime Nuxt:
+// `content` legge i file del repo; `site` legge il sito generato, quindi richiede `npm run generate`.
 export default defineConfig({
   test: {
-    include: ['tests/content/**/*.test.ts'],
-    environment: 'node',
+    projects: [
+      { test: { name: 'content', include: ['tests/content/**/*.test.ts'], environment: 'node' } },
+      { test: { name: 'site', include: ['tests/site/**/*.test.ts'], environment: 'node' } },
+    ],
   },
 })

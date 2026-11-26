@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://corriere-di-qui.netlify.app/sitemap.xml
