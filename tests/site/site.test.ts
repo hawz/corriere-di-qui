@@ -23,11 +23,15 @@ const articles = readdirSync(NEWS, 'utf-8')
     }
   })
 
+const ALL_PAGES = [...STATIC_PAGES, ...articles.map(a => a.path)]
+
 // gray-matter legge solo il frontmatter: i delimitatori servono a fargli leggere il YAML intero.
 const newsPage = matter(`---\n${readFileSync(NEWS_PAGE, 'utf-8')}\n---`).data as { title: string, hero: { subheading: string } }
 
 const read = (file: string) => readFileSync(join(OUTPUT, file), 'utf-8')
 const pageFile = (path: string) => join(path, 'index.html')
+const blockOf = (path: string, tag: 'header' | 'footer') =>
+  read(pageFile(path)).match(new RegExp(`<${tag}\\b.*?</${tag}>`, 's'))?.[0] ?? ''
 // Menu e footer ripetono i nomi delle Sezioni: `bodyOf` li toglie e lascia il corpo della pagina.
 const bodyOf = (path: string) => read(pageFile(path)).replace(/<(header|footer)\b.*?<\/\1>/gs, '')
 
@@ -52,7 +56,7 @@ describe('sito generato', () => {
   })
 
   it('la sitemap elenca le pagine statiche e ogni Articolo, e nient’altro', () => {
-    const expected = [...STATIC_PAGES, ...articles.map(a => a.path)].map(path => `${siteUrl}${path}`)
+    const expected = ALL_PAGES.map(path => `${siteUrl}${path}`)
     expect(entries.map(e => e.loc).sort()).toEqual(expected.sort())
   })
 
@@ -93,9 +97,8 @@ describe('sito generato', () => {
 
   // Il menu da telefono compare solo al tocco, quindi nelle pagine generate non c'è.
   it.each(STATIC_PAGES)('menu e footer di %s propongono solo le Sezioni con almeno un Articolo', (path) => {
-    for (const tag of ['header', 'footer']) {
-      const block = read(pageFile(path)).match(new RegExp(`<${tag}\\b.*?</${tag}>`, 's'))?.[0] ?? ''
-      const links = [...block.matchAll(/href="\/news\?sezione=([^"]+)"/g)].map(([, slug]) => slug)
+    for (const tag of ['header', 'footer'] as const) {
+      const links = [...blockOf(path, tag).matchAll(/href="\/news\?sezione=([^"]+)"/g)].map(([, slug]) => slug)
       expect(links, tag).toEqual(sezioniAttese.map(sezione => sezione.slug))
     }
   })
@@ -113,6 +116,26 @@ describe('sito generato', () => {
     const mustAppear = newest.filter(article => article.date > (newest[7]?.date ?? ''))
     expect(mustAppear).not.toEqual([])
     expect(mustAppear.map(a => a.path).filter(path => !bodyOf('/').includes(`href="${path}"`))).toEqual([])
+  })
+
+  // La 404 statica è un guscio vuoto: il footer lo disegna il browser, e va controllato lì.
+  it.each(ALL_PAGES)('il footer di %s avverte che è tutto inventato', (path) => {
+    expect(blockOf(path, 'footer')).toContain('Giornale satirico: fatti, nomi e firme sono inventati')
+  })
+
+  it.each(ALL_PAGES)('%s non cita registrazioni in tribunale', (path) => {
+    expect(read(pageFile(path))).not.toContain('Reg. Trib.')
+  })
+
+  it('in /about la Redazione ha un "Direttore", non un "Direttore responsabile"', () => {
+    expect(bodyOf('/about')).toMatch(/>\s*Direttore\b/)
+    expect(read(pageFile('/about'))).not.toContain('Direttore responsabile')
+  })
+
+  // Il dominio del giornale non riceve posta: la pagina non deve invitare a scrivere.
+  it('/about non ha il blocco "Scrivici" né un indirizzo email', () => {
+    expect(read(pageFile('/about'))).not.toMatch(/Scrivici|mailto:|redazione@/)
+    expect(bodyOf('/about')).not.toMatch(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/i)
   })
 
   it('esiste la pagina 404', () => {

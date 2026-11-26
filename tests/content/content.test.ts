@@ -24,6 +24,14 @@ const articles = readdirSync(NEWS, 'utf-8')
   .filter(file => file.endsWith('.md'))
   .sort()
 
+describe('content/pages/about.yml', () => {
+  // Il dominio del giornale non ha record DNS, quindi nessun indirizzo su quel dominio riceve posta.
+  it('non ha il blocco dei contatti né un indirizzo email', () => {
+    expect(about).not.toHaveProperty('contact')
+    expect(readFileSync(ABOUT, 'utf-8')).not.toMatch(/[\w.+-]+@[\w-]+\.\w+/)
+  })
+})
+
 describe('content/news', () => {
   // Senza questo controllo, una cartella spostata farebbe passare il test senza controllare nulla.
   it('contiene almeno un Articolo', () => {

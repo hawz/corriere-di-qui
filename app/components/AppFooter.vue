@@ -11,7 +11,7 @@
       </div>
 
       <!-- Sezioni -->
-      <nav class="flex flex-col gap-1 text-sm font-sans text-muted">
+      <nav class="flex flex-col gap-1 text-sm font-sans text-muted md:shrink-0">
         <NuxtLink to="/" class="hover:text-newsred transition-colors">Prima Pagina</NuxtLink>
         <NuxtLink v-for="sezione in sezioni" :key="sezione.slug" :to="`/news?sezione=${sezione.slug}`"
           class="hover:text-newsred transition-colors">
@@ -23,7 +23,7 @@
       <!-- Info -->
       <div class="text-xs font-sans text-muted space-y-1">
         <p>{{ page?.subtagline }}</p>
-        <p>Reg. Trib. n. 001/2024</p>
+        <p>Giornale satirico: fatti, nomi e firme sono inventati</p>
         <p>© {{ year }} Il Corriere di Qui</p>
       </div>
 

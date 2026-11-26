@@ -12,7 +12,7 @@ team:
   heading: "La redazione"
   items:
     - name: "Cosimo Frattesi"
-      role: "Direttore responsabile, cronaca e cantieri"
+      role: "Direttore, cronaca e cantieri"
       note: "In città dal 1987. Ha visto aprire e chiudere più cantieri di quanti ne ricordi. Li ricorda tutti."
     - name: "Maddalena Curreli"
       role: "Ambiente, società e raccolta differenziata"
@@ -23,7 +23,3 @@ team:
 mission:
   heading: "La nostra missione"
   text: "Raccontare la città per quella che è, non per quella che vorrebbe sembrare. Con rispetto per i fatti, scarso rispetto per le conferenze stampa inutili e nessuna pazienza per i comunicati scritti dall'AI."
-contact:
-  heading: "Scrivici"
-  text: "Hai una segnalazione, un'indiscrezione o semplicemente vuoi lamentarti di qualcosa? Siamo qui."
-  email: "redazione@ilcorrierediqui.it"

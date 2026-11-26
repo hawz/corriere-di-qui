@@ -41,27 +41,13 @@
     </div>
 
     <!-- Missione -->
-    <div v-if="page.mission" class="border-b border-rule pb-10 mb-10 text-center max-w-2xl mx-auto">
+    <div v-if="page.mission" class="text-center max-w-2xl mx-auto">
       <h3 class="font-serif text-2xl font-bold text-ink mb-4">
         {{ page.mission.heading }}
       </h3>
       <p class="font-body italic text-xl text-muted leading-relaxed">
         {{ page.mission.text }}
       </p>
-    </div>
-
-    <!-- Contatti -->
-    <div class="text-center">
-      <h3 class="font-serif text-2xl font-bold text-ink mb-2">
-        {{ page.contact?.heading }}
-      </h3>
-      <p v-if="page.contact?.text" class="font-body text-muted text-base mb-4">
-        {{ page.contact.text }}
-      </p>
-      <a :href="`mailto:${page.contact?.email}`" class="font-sans text-sm uppercase tracking-widest text-newsred
-      border-b border-newsred pb-0.5 hover:opacity-70 transition-opacity">
-        {{ page.contact?.email }}
-      </a>
     </div>
 
   </div>
