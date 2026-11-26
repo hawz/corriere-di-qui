@@ -85,6 +85,17 @@ describe('sito generato', () => {
     expect(bodyOf(path)).toMatch(new RegExp(`>\\s*${sezione}\\s*<`))
   })
 
+  // Un link attorno al testo prenderebbe l'aspetto dei link dell'Articolo: rosso e sottolineato.
+  it('i sottotitoli degli Articoli hanno il loro id e non sono link a se stessi', () => {
+    const headings = articles.flatMap(({ path }) =>
+      [...bodyOf(path).matchAll(/<h[2-6]\b[^>]*>.*?<\/h[2-6]>/gs)].map(([html]) => ({ path, html })))
+    expect(headings).not.toEqual([])
+    for (const { path, html } of headings) {
+      expect(html, path).toMatch(/^<h[2-6]\b[^>]*\sid="[^"]+"/)
+      expect(html, path).not.toMatch(/<a\b[^>]*\shref="#/)
+    }
+  })
+
   it('la testata di /news mostra titolo e sottotitolo di news.yml', () => {
     const html = read(pageFile('/news'))
     expect(html).toMatch(new RegExp(`<h2\\b[^>]*>\\s*${newsPage.title}\\s*</h2>`))
