@@ -3,8 +3,8 @@ title: "Il parcheggio davanti alla biblioteca resterà chiuso «per un paio di s
 description: "Il cantiere, avviato nel 2021, entra nella sua fase conclusiva. I residenti ricordano di aver sentito la stessa frase quattro anni fa."
 date: "2026-03-31"
 image: "/images/parcheggio-biblioteca.png"
-categoria: "attualita"
-autore: "Cosimo Frattesi"
+sezione: "attualita"
+firma: "Cosimo Frattesi"
 tags: ["cantieri", "comune", "attualità"]
 ---
 

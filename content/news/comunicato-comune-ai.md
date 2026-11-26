@@ -3,8 +3,8 @@ title: "L'AI scrive il comunicato del comune, nessuno se ne accorge"
 description: "Il testo è identico ai precedenti cinque. L'assessore smentisce con un comunicato identico ai precedenti sei."
 date: "2026-03-28"
 image: "/images/impiegato-comunale-ai.png"
-categoria: "tech"
-autore: "Ghiotto Di Chinotto"
+sezione: "tech"
+firma: "Ghiotto Di Chinotto"
 tags: ["AI", "comune", "tech"]
 ---
 

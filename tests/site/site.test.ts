@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import matter from 'gray-matter'
 import { beforeAll, describe, expect, it } from 'vitest'
+import { SEZIONI } from '../../app/utils/sezioni'
 
 const NEWS = fileURLToPath(new URL('../../content/news', import.meta.url))
 const OUTPUT = fileURLToPath(new URL('../../.output/public', import.meta.url))
@@ -13,7 +14,12 @@ const articles = readdirSync(NEWS, 'utf-8')
   .sort()
   .map((file) => {
     const { data } = matter(readFileSync(join(NEWS, file), 'utf-8'))
-    return { path: `/news/${file.slice(0, -'.md'.length)}`, date: String(data.date) }
+    return {
+      path: `/news/${file.slice(0, -'.md'.length)}`,
+      date: String(data.date),
+      firma: String(data.firma),
+      sezione: SEZIONI.find(sezione => sezione.slug === data.sezione)?.label,
+    }
   })
 
 const read = (file: string) => readFileSync(join(OUTPUT, file), 'utf-8')
@@ -56,6 +62,17 @@ describe('sito generato', () => {
 
   it.each(articles)('$path ha la sua pagina, con l’indirizzo canonico del sito', ({ path }) => {
     expect(read(pageFile(path))).toContain(`<link rel="canonical" href="${siteUrl}${path}">`)
+  })
+
+  it.each(articles)('$path indica la Firma nei metadati', ({ path, firma }) => {
+    expect(read(pageFile(path))).toContain(`<meta property="article:author" content="${firma}">`)
+  })
+
+  it.each(articles)('$path mostra il nome della sua Sezione', ({ path, sezione }) => {
+    // Menu e footer elencano tutte le Sezioni: qui conta solo il corpo della pagina.
+    const body = read(pageFile(path)).replace(/<(header|footer)\b.*?<\/\1>/gs, '')
+    expect(sezione, 'Sezione non in elenco').toBeDefined()
+    expect(body).toMatch(new RegExp(`>\\s*${sezione}\\s*<`))
   })
 
   it('esiste la pagina 404', () => {

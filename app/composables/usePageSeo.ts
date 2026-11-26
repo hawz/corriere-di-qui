@@ -6,7 +6,7 @@ export const usePageSeo = ({
   url,
   type = 'website',
   publishedAt,
-  author,
+  firma,
 }: {
   title?: string
   description?: string
@@ -14,7 +14,7 @@ export const usePageSeo = ({
   url?: string
   type?: 'website' | 'article'
   publishedAt?: string
-  author?: string
+  firma?: string
 }) => {
   const site = useSiteConfig()
 
@@ -48,8 +48,8 @@ export const usePageSeo = ({
     ...(type === 'article' && publishedAt && {
       articlePublishedTime: new Date(publishedAt).toISOString(),
     }),
-    ...(type === 'article' && author && {
-      articleAuthor: [author],
+    ...(type === 'article' && firma && {
+      articleAuthor: [firma],
     }),
   })
 

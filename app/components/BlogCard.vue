@@ -9,10 +9,10 @@
       </div>
     </NuxtLink>
 
-    <!-- Categoria -->
-    <span v-if="article.categoria" class="text-[10px] uppercase tracking-widest font-sans font-medium"
-      :class="sezioneTextClass(article.categoria)">
-      {{ article.categoria }}
+    <!-- Sezione -->
+    <span v-if="article.sezione" class="text-[10px] uppercase tracking-widest font-sans font-medium"
+      :class="sezioneTextClass(article.sezione)">
+      {{ sezioneLabel(article.sezione) }}
     </span>
 
     <!-- Titolo -->
@@ -30,8 +30,8 @@
 
     <!-- Byline -->
     <div class="flex items-center gap-2 text-xs font-sans text-muted">
-      <span v-if="article.autore">{{ article.autore }}</span>
-      <span v-if="article.autore" class="w-1 h-1 bg-newsred rounded-full inline-block" />
+      <span v-if="article.firma">{{ article.firma }}</span>
+      <span v-if="article.firma" class="w-1 h-1 bg-newsred rounded-full inline-block" />
       <span>{{ formatDate(article.date) }}</span>
     </div>
   </article>

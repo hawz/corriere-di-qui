@@ -9,6 +9,11 @@ export const SEZIONI = [
   { slug: 'opinioni', label: 'Opinioni', textClass: 'text-newsgreen', borderClass: 'border-newsgreen' },
 ]
 
+/** Il nome di una Sezione per chi legge; vuoto se non è nell'elenco. */
+export function sezioneLabel(slug: string | undefined): string {
+  return SEZIONI.find(sezione => sezione.slug === slug)?.label ?? ''
+}
+
 /** La classe del colore di una Sezione; grigio se non è nell'elenco. */
 export function sezioneTextClass(slug: string | undefined): string {
   return SEZIONI.find(sezione => sezione.slug === slug)?.textClass ?? 'text-muted'
