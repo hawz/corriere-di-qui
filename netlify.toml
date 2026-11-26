@@ -1,0 +1,9 @@
+# Questo file prevale sulle impostazioni di build del pannello di Netlify.
+[build]
+  command = "npm run generate" # esegue `nuxt generate`
+  # Su Netlify Nuxt scrive il sito in dist/, con il redirect che serve 404.html con stato 404.
+  publish = "dist"
+
+[build.environment]
+  # Deve restare uguale a .nvmrc: lo controlla `npm run test`.
+  NODE_VERSION = "24.22.2"

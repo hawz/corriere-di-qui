@@ -34,5 +34,8 @@ jobs:
 
       - run: npm run test
 
-      # Verifica che la build statica funzioni. Netlify pubblica per conto suo.
+      # La build statica. Netlify pubblica per conto suo.
       - run: npm run generate
+
+      # Legge il sito generato dal passo precedente: sitemap, pagine degli Articoli e 404.
+      - run: npm run test:site

@@ -15,10 +15,11 @@ La versione di Node è in `.nvmrc` (`nvm use`).
 |---|---|
 | `npm run dev` | Server di sviluppo |
 | `npm run lint` | ESLint tramite `@nuxt/eslint` (`eslint.config.mjs`) |
-| `npm run test` | Vitest: i test sui contenuti in `tests/content/`, senza build |
+| `npm run test` | Vitest: i test sui file del repo in `tests/content/` (Articoli e versione di Node), senza build |
 | `npm run generate` | Build statica in `.output/public` |
+| `npm run test:site` | Vitest: i test sul sito generato in `tests/site/`; prima serve `npm run generate` |
 
-La CI (`.github/workflows/ci.yml`) esegue installazione, lint, test e `nuxt generate` su ogni PR e su ogni push su `main`.
+La CI (`.github/workflows/ci.yml`) esegue installazione, lint, test, `nuxt generate` e test del sito generato su ogni PR e su ogni push su `main`.
 
 ## Agent skills
 

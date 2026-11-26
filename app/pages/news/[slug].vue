@@ -1,5 +1,5 @@
 <template>
-  <div v-if="article" class="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-10">
+  <div class="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-10">
 
     <!-- Categoria + data -->
     <div class="flex items-center gap-3 mb-4">
@@ -61,14 +61,6 @@
     </div>
 
   </div>
-
-  <div v-else class="text-center py-24">
-    <!-- 404 -->
-    <p class="font-serif text-2xl text-ink">Articolo non trovato.</p>
-    <NuxtLink to="/news" class="font-sans text-sm text-newsred mt-4 inline-block">
-      ← Torna alle News
-    </NuxtLink>
-  </div>
 </template>
 
 <script setup>
@@ -77,6 +69,11 @@ const route = useRoute()
 const { data: article } = await useAsyncData(`article-${route.params.slug}`, () =>
   queryCollection('news').where('stem', '=', `news/${route.params.slug}`).first()
 )
+
+// Un Articolo inesistente è un vero 404: la pagina la mostra app/error.vue.
+if (!article.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Articolo non trovato', fatal: true })
+}
 
 const { data: allArticles } = await useAsyncData('all-articles-nav', () =>
   queryCollection('news').order('date', 'DESC').all()
@@ -112,13 +109,13 @@ function categoryColor(cat) {
 const site = useSiteConfig()
 
 usePageSeo({
-  title: article.value?.title,
-  description: article.value?.description,
-  image: article.value?.image,
+  title: article.value.title,
+  description: article.value.description,
+  image: article.value.image,
   url: `${site.siteUrl}/news/${route.params.slug}`,
   type: 'article',
-  publishedAt: article.value?.date,
-  author: article.value?.autore,
+  publishedAt: article.value.date,
+  author: article.value.autore,
 })
 </script>
 

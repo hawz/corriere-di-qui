@@ -9,6 +9,20 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
   ],
 
+  runtimeConfig: {
+    public: {
+      // L'unico punto in cui è scritto l'indirizzo del sito. NUXT_PUBLIC_SITE_URL lo sostituisce.
+      siteUrl: 'https://corriere-di-qui.netlify.app',
+    },
+  },
+
+  nitro: {
+    prerender: {
+      // Nessuna pagina li collega, quindi il crawler della build non li troverebbe.
+      routes: ['/sitemap.xml', '/robots.txt'],
+    },
+  },
+
   content: {
     build: {
       markdown: {
