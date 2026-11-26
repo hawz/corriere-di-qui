@@ -13,7 +13,7 @@
       <!-- Sezioni -->
       <nav class="flex flex-col gap-1 text-sm font-sans text-muted">
         <NuxtLink to="/" class="hover:text-newsred transition-colors">Prima Pagina</NuxtLink>
-        <NuxtLink v-for="sezione in SEZIONI" :key="sezione.slug" :to="`/news?sezione=${sezione.slug}`"
+        <NuxtLink v-for="sezione in sezioni" :key="sezione.slug" :to="`/news?sezione=${sezione.slug}`"
           class="hover:text-newsred transition-colors">
           {{ sezione.label }}
         </NuxtLink>
@@ -33,6 +33,7 @@
 
 <script setup>
 const page = await usePageData('pages/home')
+const sezioni = await useSezioniConArticoli()
 
 const year = new Date().getFullYear()
 </script>

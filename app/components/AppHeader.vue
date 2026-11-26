@@ -34,7 +34,7 @@
             :class="{ 'text-newsred border-b border-newsred': route.path === '/' }">
             Prima Pagina
           </NuxtLink>
-          <NuxtLink v-for="sezione in SEZIONI" :key="sezione.slug" :to="`/news?sezione=${sezione.slug}`"
+          <NuxtLink v-for="sezione in sezioni" :key="sezione.slug" :to="`/news?sezione=${sezione.slug}`"
             class="uppercase tracking-widest hover:text-newsred transition-colors"
             :class="{ 'text-newsred border-b border-newsred': route.query.sezione === sezione.slug }">
             {{ sezione.label }}
@@ -72,7 +72,7 @@
         :class="{ 'text-newsred': route.path === '/' }" @click="menuOpen = false">
         Prima Pagina
       </NuxtLink>
-      <NuxtLink v-for="sezione in SEZIONI" :key="sezione.slug" :to="`/news?sezione=${sezione.slug}`" class="block px-4 py-3 text-xs uppercase tracking-widest font-sans
+      <NuxtLink v-for="sezione in sezioni" :key="sezione.slug" :to="`/news?sezione=${sezione.slug}`" class="block px-4 py-3 text-xs uppercase tracking-widest font-sans
                border-b border-rule text-ink hover:text-newsred hover:bg-gray-50 transition-colors"
         :class="{ 'text-newsred': route.query.sezione === sezione.slug }" @click="menuOpen = false">
         {{ sezione.label }}
@@ -94,6 +94,7 @@ const menuOpen = ref(false)
 watch(() => route.path, () => { menuOpen.value = false })
 
 const page = await usePageData('pages/home')
+const sezioni = await useSezioniConArticoli()
 
 const today = computed(() => formatDate(new Date(), { weekday: 'long' }))
 </script>
