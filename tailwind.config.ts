@@ -12,8 +12,6 @@ export default {
         newsred: '#C0392B',
         newsblue: '#2980B9',
         newsgreen: '#27AE60',
-        newsamber: '#B7770D',
-        parchment: '#fef9f0',
         rule: '#dddddd',
         muted: '#666666',
       },

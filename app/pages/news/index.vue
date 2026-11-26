@@ -16,7 +16,7 @@
         : 'text-muted hover:text-ink'" @click="setSezione(null)">
         Tutti
       </button>
-      <button v-for="sezione in SEZIONI" :key="sezione.slug"
+      <button v-for="sezione in sezioni" :key="sezione.slug"
         class="text-xs uppercase tracking-widest font-sans pb-0.5 transition-colors" :class="activeSezione === sezione.slug
           ? `${sezione.textClass} border-b-2 ${sezione.borderClass}`
           : 'text-muted hover:text-ink'" @click="setSezione(sezione.slug)">
@@ -75,6 +75,8 @@ const page = await usePageData('pages/news')
 const { data: articles } = await useAsyncData('news-articles', () =>
   queryCollection('news').order('date', 'DESC').all()
 )
+
+const sezioni = computed(() => sezioniConArticoli(articles.value ?? []))
 
 // Legge sempre dalla URL, non da un ref locale
 const activeSezione = computed(() => route.query.sezione ?? null)

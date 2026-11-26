@@ -28,6 +28,10 @@ const newsPage = matter(`---\n${readFileSync(NEWS_PAGE, 'utf-8')}\n---`).data as
 
 const read = (file: string) => readFileSync(join(OUTPUT, file), 'utf-8')
 const pageFile = (path: string) => join(path, 'index.html')
+// Menu e footer ripetono i nomi delle Sezioni: `bodyOf` li toglie e lascia il corpo della pagina.
+const bodyOf = (path: string) => read(pageFile(path)).replace(/<(header|footer)\b.*?<\/\1>/gs, '')
+
+const sezioniAttese = SEZIONI.filter(sezione => articles.some(article => article.sezione === sezione.label))
 
 describe('sito generato', () => {
   // L'indirizzo del sito si ricava da robots.txt: il test controlla che il resto usi lo stesso, senza ripeterlo.
@@ -73,10 +77,8 @@ describe('sito generato', () => {
   })
 
   it.each(articles)('$path mostra il nome della sua Sezione', ({ path, sezione }) => {
-    // Menu e footer elencano tutte le Sezioni: qui conta solo il corpo della pagina.
-    const body = read(pageFile(path)).replace(/<(header|footer)\b.*?<\/\1>/gs, '')
     expect(sezione, 'Sezione non in elenco').toBeDefined()
-    expect(body).toMatch(new RegExp(`>\\s*${sezione}\\s*<`))
+    expect(bodyOf(path)).toMatch(new RegExp(`>\\s*${sezione}\\s*<`))
   })
 
   it('la testata di /news mostra titolo e sottotitolo di news.yml', () => {
@@ -87,6 +89,30 @@ describe('sito generato', () => {
 
   it('la description di /news è il sottotitolo di news.yml', () => {
     expect(read(pageFile('/news'))).toContain(`<meta name="description" content="${newsPage.hero.subheading}">`)
+  })
+
+  // Il menu da telefono compare solo al tocco, quindi nelle pagine generate non c'è.
+  it.each(STATIC_PAGES)('menu e footer di %s propongono solo le Sezioni con almeno un Articolo', (path) => {
+    for (const tag of ['header', 'footer']) {
+      const block = read(pageFile(path)).match(new RegExp(`<${tag}\\b.*?</${tag}>`, 's'))?.[0] ?? ''
+      const links = [...block.matchAll(/href="\/news\?sezione=([^"]+)"/g)].map(([, slug]) => slug)
+      expect(links, tag).toEqual(sezioniAttese.map(sezione => sezione.slug))
+    }
+  })
+
+  it('il filtro di /news propone solo le Sezioni con almeno un Articolo', () => {
+    const buttons = [...bodyOf('/news').matchAll(/<button\b[^>]*>(.*?)<\/button>/gs)]
+      .map(([, text]) => text?.replace(/<!--.*?-->/g, '').trim())
+    expect(buttons).toEqual(['Tutti', ...sezioniAttese.map(sezione => sezione.label)])
+  })
+
+  // La home ha posto per 7 Articoli diversi: apertura, tre nella colonna e tre nella griglia.
+  it('la home porta a tutti gli Articoli più recenti', () => {
+    const newest = [...articles].sort((a, b) => b.date.localeCompare(a.date))
+    // Se l'ottavo ha la stessa data di quelli prima, quali entrano non è stabilito: si controllano solo i certi.
+    const mustAppear = newest.filter(article => article.date > (newest[7]?.date ?? ''))
+    expect(mustAppear).not.toEqual([])
+    expect(mustAppear.map(a => a.path).filter(path => !bodyOf('/').includes(`href="${path}"`))).toEqual([])
   })
 
   it('esiste la pagina 404', () => {

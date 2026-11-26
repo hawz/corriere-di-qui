@@ -58,21 +58,6 @@
       </aside>
     </div>
 
-    <!-- BOX SATIRA -->
-    <div v-if="satira" class="bg-parchment border border-newsamber rounded-sm
-                px-4 md:px-6 py-4 mb-6 md:mb-8">
-      <p class="text-[10px] uppercase tracking-widest font-sans font-medium text-newsamber mb-1">
-        ⚑ Satira
-      </p>
-      <NuxtLink :to="`/news/${slug(satira)}`">
-        <h3 class="font-serif text-xl md:text-2xl font-bold italic
-                   text-ink hover:text-newsred transition-colors">
-          {{ satira.title }}
-        </h3>
-      </NuxtLink>
-      <p class="font-body text-sm text-muted mt-1">{{ satira.description }}</p>
-    </div>
-
     <!-- GRIGLIA 3 COLONNE → 1 su mobile, 2 su tablet, 3 su desktop -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8
                 border-b border-rule pb-6 md:pb-8 mb-6 md:mb-8">
@@ -95,17 +80,14 @@
 const { data: articles } = await useAsyncData('home-articles', () =>
   queryCollection('news')
     .order('date', 'DESC')
-    .limit(10)
+    .limit(ARTICOLI_IN_HOME)
     .all()
 )
 
-const lead = computed(() => articles.value?.[0] ?? null)
-const sidebar = computed(() => articles.value?.slice(1, 4) ?? [])
-const satira = computed(() => articles.value?.find(a => a.sezione === 'satira') ?? null)
-const grid = computed(() => {
-  const exclude = new Set([lead.value?.id, satira.value?.id])
-  return (articles.value ?? []).filter(a => !exclude.has(a.id)).slice(0, 3)
-})
+const home = computed(() => componiHome(articles.value ?? []))
+const lead = computed(() => home.value.lead)
+const sidebar = computed(() => home.value.sidebar)
+const grid = computed(() => home.value.grid)
 
 function slug(art) {
   return art.stem?.split('/').pop() ?? ''
