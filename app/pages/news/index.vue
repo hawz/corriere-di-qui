@@ -16,11 +16,11 @@
         : 'text-muted hover:text-ink'" @click="setCategory(null)">
         Tutti
       </button>
-      <button v-for="cat in categories" :key="cat.slug"
-        class="text-xs uppercase tracking-widest font-sans pb-0.5 transition-colors" :class="activeCategory === cat.slug
-          ? `${cat.activeClass} border-b-2 ${cat.borderClass}`
-          : 'text-muted hover:text-ink'" @click="setCategory(cat.slug)">
-        {{ cat.label }}
+      <button v-for="sezione in SEZIONI" :key="sezione.slug"
+        class="text-xs uppercase tracking-widest font-sans pb-0.5 transition-colors" :class="activeCategory === sezione.slug
+          ? `${sezione.textClass} border-b-2 ${sezione.borderClass}`
+          : 'text-muted hover:text-ink'" @click="setCategory(sezione.slug)">
+        {{ sezione.label }}
       </button>
     </div>
 
@@ -33,7 +33,7 @@
       </div>
       <div class="flex flex-col justify-center">
         <span class="text-[10px] uppercase tracking-widest font-sans font-medium mb-2"
-          :class="categoryColor(featured.categoria)">
+          :class="sezioneTextClass(featured.categoria)">
           {{ featured.categoria }}
         </span>
         <NuxtLink :to="`/news/${slug(featured)}`">
@@ -78,13 +78,6 @@ const { data: articles } = await useAsyncData('news-articles', () =>
   queryCollection('news').order('date', 'DESC').all()
 )
 
-const categories = [
-  { slug: 'attualita', label: 'Attualità', activeClass: 'text-newsred', borderClass: 'border-newsred' },
-  { slug: 'tech', label: 'Tech', activeClass: 'text-newsblue', borderClass: 'border-newsblue' },
-  { slug: 'satira', label: 'Satira', activeClass: 'text-newsamber', borderClass: 'border-newsamber' },
-  { slug: 'opinioni', label: 'Opinioni', activeClass: 'text-newsgreen', borderClass: 'border-newsgreen' },
-]
-
 // Legge sempre dalla URL, non da un ref locale
 const activeCategory = computed(() => route.query.categoria ?? null)
 
@@ -105,23 +98,6 @@ const rest = computed(() => filtered.value.slice(1))
 
 function slug(art) {
   return art.stem?.split('/').pop() ?? ''
-}
-
-function formatDate(d) {
-  if (!d) return ''
-  return new Date(d).toLocaleDateString('it-IT', {
-    day: 'numeric', month: 'long', year: 'numeric',
-  })
-}
-
-function categoryColor(cat) {
-  const map = {
-    tech: 'text-newsblue',
-    satira: 'text-newsamber',
-    attualita: 'text-newsred',
-    opinioni: 'text-newsgreen',
-  }
-  return map[cat] ?? 'text-muted'
 }
 
 const site = useSiteConfig()

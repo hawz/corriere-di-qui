@@ -9,7 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "test": "vitest run --project content",
+    "test": "vitest run --project content --project unit",
     "test:site": "vitest run --project site"
   },
   "dependencies": {

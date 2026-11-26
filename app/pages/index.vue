@@ -9,7 +9,7 @@
       <div class="md:col-span-2 md:border-r md:border-rule md:pr-8">
         <template v-if="lead">
           <span class="text-[10px] uppercase tracking-widest font-sans font-medium"
-            :class="categoryColor(lead.categoria)">
+            :class="sezioneTextClass(lead.categoria)">
             {{ lead.categoria }}
           </span>
           <NuxtLink :to="`/news/${slug(lead)}`">
@@ -41,7 +41,7 @@
                     border-t border-rule pt-4 md:border-t-0 md:pt-0">
         <article v-for="art in sidebar" :key="art.id" class="border-b border-rule pb-4 last:border-0 last:pb-0">
           <span class="text-[10px] uppercase tracking-widest font-sans font-medium"
-            :class="categoryColor(art.categoria)">
+            :class="sezioneTextClass(art.categoria)">
             {{ art.categoria }}
           </span>
           <NuxtLink :to="`/news/${slug(art)}`">
@@ -109,23 +109,6 @@ const grid = computed(() => {
 
 function slug(art) {
   return art.stem?.split('/').pop() ?? ''
-}
-
-function formatDate(d) {
-  if (!d) return ''
-  return new Date(d).toLocaleDateString('it-IT', {
-    day: 'numeric', month: 'long', year: 'numeric',
-  })
-}
-
-function categoryColor(cat) {
-  const map = {
-    tech: 'text-newsblue',
-    satira: 'text-newsamber',
-    attualita: 'text-newsred',
-    opinioni: 'text-newsgreen',
-  }
-  return map[cat] ?? 'text-muted'
 }
 
 const site = useSiteConfig()

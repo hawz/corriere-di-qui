@@ -4,7 +4,7 @@
     <!-- Categoria + data -->
     <div class="flex items-center gap-3 mb-4">
       <span class="text-[10px] uppercase tracking-widest font-sans font-medium"
-        :class="categoryColor(article.categoria)">
+        :class="sezioneTextClass(article.categoria)">
         {{ article.categoria }}
       </span>
       <span class="w-1 h-1 bg-rule rounded-full inline-block" />
@@ -87,23 +87,6 @@ const next = computed(() => allArticles.value?.[currentIndex.value - 1] ?? null)
 
 function slug(art) {
   return art.stem?.split('/').pop() ?? ''
-}
-
-function formatDate(d) {
-  if (!d) return ''
-  return new Date(d).toLocaleDateString('it-IT', {
-    day: 'numeric', month: 'long', year: 'numeric',
-  })
-}
-
-function categoryColor(cat) {
-  const map = {
-    tech: 'text-newsblue',
-    satira: 'text-newsamber',
-    attualita: 'text-newsred',
-    opinioni: 'text-newsgreen',
-  }
-  return map[cat] ?? 'text-muted'
 }
 
 const site = useSiteConfig()
