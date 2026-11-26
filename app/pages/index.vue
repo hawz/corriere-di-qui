@@ -9,8 +9,8 @@
       <div class="md:col-span-2 md:border-r md:border-rule md:pr-8">
         <template v-if="lead">
           <span class="text-[10px] uppercase tracking-widest font-sans font-medium"
-            :class="sezioneTextClass(lead.categoria)">
-            {{ lead.categoria }}
+            :class="sezioneTextClass(lead.sezione)">
+            {{ sezioneLabel(lead.sezione) }}
           </span>
           <NuxtLink :to="`/news/${slug(lead)}`">
             <h2 class="font-serif text-2xl md:text-4xl font-black leading-tight
@@ -19,7 +19,7 @@
             </h2>
           </NuxtLink>
           <div class="flex items-center gap-2 text-xs font-sans text-muted mb-3">
-            <span v-if="lead.autore">{{ lead.autore }}</span>
+            <span v-if="lead.firma">{{ lead.firma }}</span>
             <span class="w-1 h-1 bg-newsred rounded-full inline-block" />
             <span>{{ formatDate(lead.date) }}</span>
           </div>
@@ -41,8 +41,8 @@
                     border-t border-rule pt-4 md:border-t-0 md:pt-0">
         <article v-for="art in sidebar" :key="art.id" class="border-b border-rule pb-4 last:border-0 last:pb-0">
           <span class="text-[10px] uppercase tracking-widest font-sans font-medium"
-            :class="sezioneTextClass(art.categoria)">
-            {{ art.categoria }}
+            :class="sezioneTextClass(art.sezione)">
+            {{ sezioneLabel(art.sezione) }}
           </span>
           <NuxtLink :to="`/news/${slug(art)}`">
             <h3 class="font-serif text-sm md:text-base font-bold leading-snug
@@ -101,7 +101,7 @@ const { data: articles } = await useAsyncData('home-articles', () =>
 
 const lead = computed(() => articles.value?.[0] ?? null)
 const sidebar = computed(() => articles.value?.slice(1, 4) ?? [])
-const satira = computed(() => articles.value?.find(a => a.categoria === 'satira') ?? null)
+const satira = computed(() => articles.value?.find(a => a.sezione === 'satira') ?? null)
 const grid = computed(() => {
   const exclude = new Set([lead.value?.id, satira.value?.id])
   return (articles.value ?? []).filter(a => !exclude.has(a.id)).slice(0, 3)

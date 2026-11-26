@@ -9,17 +9,17 @@
       </p>
     </div>
 
-    <!-- Filtri categoria -->
+    <!-- Filtri per Sezione -->
     <div class="flex gap-4 mb-8 flex-wrap">
-      <button class="text-xs uppercase tracking-widest font-sans pb-0.5 transition-colors" :class="activeCategory === null
+      <button class="text-xs uppercase tracking-widest font-sans pb-0.5 transition-colors" :class="activeSezione === null
         ? 'text-ink border-b-2 border-ink'
-        : 'text-muted hover:text-ink'" @click="setCategory(null)">
+        : 'text-muted hover:text-ink'" @click="setSezione(null)">
         Tutti
       </button>
       <button v-for="sezione in SEZIONI" :key="sezione.slug"
-        class="text-xs uppercase tracking-widest font-sans pb-0.5 transition-colors" :class="activeCategory === sezione.slug
+        class="text-xs uppercase tracking-widest font-sans pb-0.5 transition-colors" :class="activeSezione === sezione.slug
           ? `${sezione.textClass} border-b-2 ${sezione.borderClass}`
-          : 'text-muted hover:text-ink'" @click="setCategory(sezione.slug)">
+          : 'text-muted hover:text-ink'" @click="setSezione(sezione.slug)">
         {{ sezione.label }}
       </button>
     </div>
@@ -33,8 +33,8 @@
       </div>
       <div class="flex flex-col justify-center">
         <span class="text-[10px] uppercase tracking-widest font-sans font-medium mb-2"
-          :class="sezioneTextClass(featured.categoria)">
-          {{ featured.categoria }}
+          :class="sezioneTextClass(featured.sezione)">
+          {{ sezioneLabel(featured.sezione) }}
         </span>
         <NuxtLink :to="`/news/${slug(featured)}`">
           <h3 class="font-serif text-2xl md:text-3xl font-black leading-tight
@@ -46,7 +46,7 @@
           {{ featured.description }}
         </p>
         <div class="flex items-center gap-2 text-xs font-sans text-muted">
-          <span v-if="featured.autore">{{ featured.autore }}</span>
+          <span v-if="featured.firma">{{ featured.firma }}</span>
           <span class="w-1 h-1 bg-newsred rounded-full inline-block" />
           <span>{{ formatDate(featured.date) }}</span>
         </div>
@@ -60,7 +60,7 @@
 
     <!-- Nessun risultato -->
     <div v-if="filtered.length === 0" class="text-center py-20 text-muted font-body italic">
-      Nessun articolo trovato in questa categoria.
+      Nessun articolo trovato in questa sezione.
     </div>
 
   </div>
@@ -79,18 +79,18 @@ const { data: articles } = await useAsyncData('news-articles', () =>
 )
 
 // Legge sempre dalla URL, non da un ref locale
-const activeCategory = computed(() => route.query.categoria ?? null)
+const activeSezione = computed(() => route.query.sezione ?? null)
 
-// Aggiorna la URL quando si cambia categoria
-function setCategory(slug) {
+// Aggiorna la URL quando si cambia Sezione
+function setSezione(slug) {
   router.push({
-    query: slug ? { categoria: slug } : {},
+    query: slug ? { sezione: slug } : {},
   })
 }
 
 const filtered = computed(() => {
-  if (!activeCategory.value) return articles.value ?? []
-  return (articles.value ?? []).filter(a => a.categoria === activeCategory.value)
+  if (!activeSezione.value) return articles.value ?? []
+  return (articles.value ?? []).filter(a => a.sezione === activeSezione.value)
 })
 
 const featured = computed(() => filtered.value[0] ?? null)

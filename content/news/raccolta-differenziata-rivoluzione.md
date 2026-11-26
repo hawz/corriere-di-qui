@@ -3,8 +3,8 @@ title: "Raccolta differenziata: tre mesi dopo, la città ha sviluppato un suo si
 description: "I cassonetti sono spariti, le istruzioni esistono, la volontà pure — da qualche parte. Nel frattempo i cittadini si sono organizzati in modo creativo e l'amministrazione dorme sonni tranquilli."
 date: "2026-03-10"
 image: "/images/differenziata.png"
-categoria: "satira"
-autore: "Maddalena Curreli"
+sezione: "satira"
+firma: "Maddalena Curreli"
 tags: ["ambiente", "raccolta differenziata", "comune", "satira"]
 ---
 

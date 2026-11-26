@@ -1,11 +1,11 @@
 <template>
   <div class="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-10">
 
-    <!-- Categoria + data -->
+    <!-- Sezione + data -->
     <div class="flex items-center gap-3 mb-4">
       <span class="text-[10px] uppercase tracking-widest font-sans font-medium"
-        :class="sezioneTextClass(article.categoria)">
-        {{ article.categoria }}
+        :class="sezioneTextClass(article.sezione)">
+        {{ sezioneLabel(article.sezione) }}
       </span>
       <span class="w-1 h-1 bg-rule rounded-full inline-block" />
       <span class="text-xs font-sans text-muted">{{ formatDate(article.date) }}</span>
@@ -23,8 +23,8 @@
 
     <!-- Byline -->
     <div class="flex items-center gap-2 text-sm font-sans text-muted border-t border-b border-rule py-3 mb-8">
-      <span v-if="article.autore" class="font-medium text-ink">{{ article.autore }}</span>
-      <span v-if="article.autore" class="w-1 h-1 bg-newsred rounded-full inline-block" />
+      <span v-if="article.firma" class="font-medium text-ink">{{ article.firma }}</span>
+      <span v-if="article.firma" class="w-1 h-1 bg-newsred rounded-full inline-block" />
       <span>{{ formatDate(article.date) }}</span>
       <span v-if="article.tags?.length" class="ml-auto flex gap-2">
         <span v-for="tag in article.tags" :key="tag"
@@ -98,7 +98,7 @@ usePageSeo({
   url: `${site.siteUrl}/news/${route.params.slug}`,
   type: 'article',
   publishedAt: article.value.date,
-  author: article.value.autore,
+  firma: article.value.firma,
 })
 </script>
 
