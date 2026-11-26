@@ -11,7 +11,7 @@
 
     <!-- Categoria -->
     <span v-if="article.categoria" class="text-[10px] uppercase tracking-widest font-sans font-medium"
-      :class="categoryColor">
+      :class="sezioneTextClass(article.categoria)">
       {{ article.categoria }}
     </span>
 
@@ -38,25 +38,8 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   article: { type: Object, required: true },
   large: { type: Boolean, default: false },
 })
-
-const categoryColor = computed(() => {
-  const map = {
-    tech: 'text-newsblue',
-    satira: 'text-newsamber',
-    attualita: 'text-newsred',
-    opinioni: 'text-newsgreen',
-  }
-  return map[props.article.categoria] ?? 'text-muted'
-})
-
-function formatDate(d) {
-  if (!d) return ''
-  return new Date(d).toLocaleDateString('it-IT', {
-    day: 'numeric', month: 'long', year: 'numeric'
-  })
-}
 </script>

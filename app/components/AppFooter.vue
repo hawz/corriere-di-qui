@@ -13,9 +13,9 @@
       <!-- Sezioni -->
       <nav class="flex flex-col gap-1 text-sm font-sans text-muted">
         <NuxtLink to="/" class="hover:text-newsred transition-colors">Prima Pagina</NuxtLink>
-        <NuxtLink v-for="section in page?.sections" :key="section.slug" :to="`/news?categoria=${section.slug}`"
+        <NuxtLink v-for="sezione in SEZIONI" :key="sezione.slug" :to="`/news?categoria=${sezione.slug}`"
           class="hover:text-newsred transition-colors">
-          {{ section.label }}
+          {{ sezione.label }}
         </NuxtLink>
         <NuxtLink to="/about" class="hover:text-newsred transition-colors">Chi siamo</NuxtLink>
       </nav>
