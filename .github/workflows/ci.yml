@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+# Un nuovo push sulla stessa PR o sullo stesso branch annulla la corsa ancora in corso.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    # Il ruleset su main richiede un controllo con questo nome: se lo cambi, aggiorna anche il ruleset.
+    name: Lint, test and generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # La stessa versione di Node dello sviluppo locale (.nvmrc)
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run test
+
+      # Verifica che la build statica funzioni. Netlify pubblica per conto suo.
+      - run: npm run generate

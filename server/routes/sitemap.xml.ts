@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const { resolve } = await import('path')
 
   const blogDir = resolve('./content/blog')
-  let files: string[] = []
+  let files: string[]
 
   try {
     files = await readdir(blogDir)

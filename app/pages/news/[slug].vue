@@ -62,8 +62,8 @@
 
   </div>
 
-  <!-- 404 -->
   <div v-else class="text-center py-24">
+    <!-- 404 -->
     <p class="font-serif text-2xl text-ink">Articolo non trovato.</p>
     <NuxtLink to="/news" class="font-sans text-sm text-newsred mt-4 inline-block">
       ← Torna alle News
