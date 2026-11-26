@@ -24,6 +24,10 @@ export default defineNuxtConfig({
   },
 
   content: {
+    renderer: {
+      // I titoli restano con il loro id, ma il testo non diventa un link che prende lo stile dei link dell'Articolo.
+      anchorLinks: false,
+    },
     build: {
       markdown: {
         highlight: {
