@@ -4,6 +4,6 @@ export const useSiteConfig = () => ({
   siteUrl: useRuntimeConfig().public.siteUrl,
   description: 'Notizie locali, tech e satira. Tutte le notizie che contano. E anche quelle che non contano.',
   // twitterHandle: '@ilcorrierediqui', // ← optional
-  defaultImage: '/images/og-default.png',
+  defaultImage: IMMAGINE_SOCIAL_PREDEFINITA,
   locale: 'it_IT',
 })

@@ -2,7 +2,7 @@
 title: "Le buche stradali dichiarate patrimonio culturale immateriale della città"
 description: "Alcune hanno nomi propri. Altre compaiono sulle mappe di Google. L'amministrazione valuta se tutelarle."
 date: "2026-03-20"
-image: "/images/buche-patrimonio-cittadino.png"
+image: "/images/buche-patrimonio-cittadino.webp"
 sezione: "attualita"
 firma: "Maddalena Curreli"
 tags: ["strade", "buche", "comune", "satira"]

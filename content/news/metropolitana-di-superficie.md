@@ -2,7 +2,7 @@
 title: "La metropolitana di superficie compie vent'anni: festa sobria"
 description: "L'opera che doveva collegare il centro all'aeroporto è diventata nel tempo un simbolo, un mito, quasi una religione laica. Quest'anno si celebra un nuovo anniversario."
 date: "2026-03-15"
-image: "/images/metropolitana-di-superficie.png"
+image: "/images/metropolitana-di-superficie.webp"
 sezione: "attualita"
 firma: "Cosimo Frattesi"
 tags: ["metropolitana", "trasporti", "cantiere", "satira"]
