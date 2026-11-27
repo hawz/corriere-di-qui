@@ -20,7 +20,9 @@ export const usePageSeo = ({
 
   const fullTitle = title ? `${title} — ${site.siteName}` : site.siteName
   const metaDescription = description ?? site.description
-  const metaImage = image ?? site.defaultImage
+  // I social non garantiscono il WebP: per loro la CDN genera un JPEG largo 1200 px.
+  const socialImage = useImage()(image ?? site.defaultImage, { width: 1200, format: 'jpg' })
+  const metaImage = socialImage.startsWith('http') ? socialImage : `${site.siteUrl}${socialImage}`
   const canonicalUrl = url ?? site.siteUrl
 
   useSeoMeta({
@@ -31,7 +33,7 @@ export const usePageSeo = ({
     // Open Graph
     ogTitle: fullTitle,
     ogDescription: metaDescription,
-    ogImage: metaImage.startsWith('http') ? metaImage : `${site.siteUrl}${metaImage}`,
+    ogImage: metaImage,
     ogUrl: canonicalUrl,
     ogType: type,
     ogLocale: site.locale,
@@ -41,7 +43,7 @@ export const usePageSeo = ({
     twitterCard: 'summary_large_image',
     twitterTitle: fullTitle,
     twitterDescription: metaDescription,
-    twitterImage: metaImage.startsWith('http') ? metaImage : `${site.siteUrl}${metaImage}`,
+    twitterImage: metaImage,
     // ...(site.twitterHandle && { twitterSite: site.twitterHandle }),
 
     // Articolo (solo se type === 'article')

@@ -28,7 +28,8 @@
     <div v-if="featured" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8
             border-b border-rule pb-6 md:pb-8 mb-6 md:mb-8">
       <div v-if="featured.image" class="aspect-[4/3] overflow-hidden bg-rule">
-        <img :src="featured.image" :alt="featured.title"
+        <!-- Il riquadro 4:3 taglia ai lati un'immagine orizzontale: `sizes` segue l'immagine, circa 1,4 volte il riquadro. -->
+        <NuxtImg :src="featured.image" :alt="featured.title" sizes="sm:140vw md:63vw lg:649px"
           class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
       </div>
       <div class="flex flex-col justify-center">

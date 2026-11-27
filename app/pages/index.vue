@@ -24,7 +24,8 @@
             <span>{{ formatDate(lead.date) }}</span>
           </div>
           <div v-if="lead.image" class="aspect-[16/9] overflow-hidden bg-rule mb-4">
-            <img :src="lead.image" :alt="lead.title" class="w-full h-full object-cover" />
+            <NuxtImg :src="lead.image" :alt="lead.title" sizes="sm:100vw md:60vw lg:607px"
+              class="w-full h-full object-cover" />
           </div>
           <p class="font-body italic text-base md:text-lg text-ink leading-relaxed mb-3">
             {{ lead.description }}

@@ -6,8 +6,24 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/content',
     '@nuxt/eslint',
+    '@nuxt/image',
     '@nuxtjs/tailwindcss',
   ],
+
+  // `@nuxt/image` resta alla 2.1: dalla 2.2 importa `nuxt/server`, che Nuxt 4.4 non esporta.
+  // Gli indirizzi delle immagini esistono solo su Netlify: una build servita in locale senza `netlify dev` non le mostra.
+  image: {
+    // Fisso: senza, fuori da Netlify (CI e build in locale) il modulo userebbe ipx e scriverebbe altri indirizzi.
+    provider: 'netlifyImageCdn',
+    // L'unico punto in cui è scritto il WebP; un altro formato lo chiede solo l'immagine per i social, in usePageSeo.
+    // Senza, la CDN darebbe il PNG originale a chi chiede `Accept: */*`.
+    netlifyImageCdn: { modifiers: { format: 'webp' } },
+  },
+
+  // `npm run dev` non ha la CDN di Netlify: ipx ridimensiona le immagini in locale, senza cambiarne il formato.
+  $development: {
+    image: { provider: 'ipx' },
+  },
 
   runtimeConfig: {
     public: {
