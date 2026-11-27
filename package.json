@@ -15,16 +15,16 @@
     "verify:deploy": "node scripts/verify-deploy.ts"
   },
   "dependencies": {
-    "@nuxt/content": "^3.12.0",
+    "@nuxt/content": "^3.17.0",
     "@nuxt/image": "~2.1.0",
     "better-sqlite3": "^12.8.0",
-    "nuxt": "^4.4.2",
-    "vue": "^3.5.31",
-    "vue-router": "^5.0.4"
+    "nuxt": "^4.7.0",
+    "vue": "^3.5.46",
+    "vue-router": "^5.5.3"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",
-    "@nuxtjs/mdc": "^0.20.2",
+    "@nuxtjs/mdc": "^0.23.4",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@types/node": "^24.19.4",
     "eslint": "^10.15.0",

@@ -10,7 +10,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
   ],
 
-  // `@nuxt/image` resta alla 2.1: dalla 2.2 importa `nuxt/server`, che Nuxt 4.4 non esporta.
+  // `@nuxt/image` resta alla 2.1: il vincolo è nato perché la 2.2 importa `nuxt/server`, che Nuxt 4.4 non esportava.
+  // Nuxt 4.7 lo esporta, ma il passaggio alla 2.2 non è ancora stato provato.
   // Gli indirizzi delle immagini esistono solo su Netlify: una build servita in locale senza `netlify dev` non le mostra.
   image: {
     // Fisso: senza, fuori da Netlify (CI e build in locale) il modulo userebbe ipx e scriverebbe altri indirizzi.
