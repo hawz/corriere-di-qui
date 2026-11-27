@@ -3,7 +3,7 @@
     <!-- Immagine -->
     <NuxtLink :to="`/news/${article.stem?.split('/').pop()}`">
       <div class="overflow-hidden bg-gray-100 aspect-[16/9] rounded-sm">
-        <img v-if="article.image" :src="article.image" :alt="article.title"
+        <NuxtImg v-if="article.image" :src="article.image" :alt="article.title" sizes="sm:100vw md:304px"
           class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
         <div v-else class="w-full h-full flex items-center justify-content-center bg-rule" />
       </div>

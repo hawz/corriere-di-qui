@@ -36,7 +36,8 @@
 
     <!-- Immagine hero -->
     <div v-if="article.image" class="aspect-[16/9] overflow-hidden bg-rule mb-8">
-      <img :src="article.image" :alt="article.title" class="w-full h-full object-cover" />
+      <NuxtImg :src="article.image" :alt="article.title" sizes="sm:100vw md:720px"
+        class="w-full h-full object-cover" />
     </div>
 
     <!-- Corpo articolo -->
