@@ -22,11 +22,11 @@
     </p>
 
     <!-- Byline -->
-    <div class="flex items-center gap-2 text-sm font-sans text-muted border-t border-b border-rule py-3 mb-8">
+    <div class="flex flex-wrap items-center gap-2 text-sm font-sans text-muted border-t border-b border-rule py-3 mb-8">
       <span v-if="article.firma" class="font-medium text-ink">{{ article.firma }}</span>
       <span v-if="article.firma" class="w-1 h-1 bg-newsred rounded-full inline-block" />
       <span>{{ formatDate(article.date) }}</span>
-      <span v-if="article.tags?.length" class="ml-auto flex gap-2">
+      <span v-if="article.tags?.length" class="flex flex-wrap gap-2 w-full sm:w-auto sm:ml-auto sm:justify-end">
         <span v-for="tag in article.tags" :key="tag"
           class="text-[10px] uppercase tracking-wider bg-rule px-2 py-0.5 rounded-sm">
           {{ tag }}
