@@ -2,7 +2,7 @@
 title: "«Digitalizziamo il comune»: installato un secondo schermo al pc del segretario"
 description: "Il piano triennale per la trasformazione digitale dell'ente ha prodotto il suo primo risultato concreto: un monitor da 24 pollici, acquistato a prezzo di listino."
 date: "2026-03-28"
-image: "/images/digitalizziamo.png"
+image: "/images/digitalizziamo.webp"
 sezione: "tech"
 firma: "Ghiotto Di Chinotto"
 tags: ["comune", "digitalizzazione", "satira", "tecnologia"]

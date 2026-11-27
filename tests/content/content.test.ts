@@ -3,8 +3,9 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import matter from 'gray-matter'
 import { describe, expect, it } from 'vitest'
+import { IMMAGINE_SOCIAL_PREDEFINITA } from '../../app/utils/immagini'
 import { SEZIONI } from '../../app/utils/sezioni'
-import { validateArticle } from './validators'
+import { imageProblems, validateArticle, validateBodyImages } from './validators'
 
 const NEWS = fileURLToPath(new URL('../../content/news', import.meta.url))
 const PUBLIC = fileURLToPath(new URL('../../public', import.meta.url))
@@ -20,6 +21,10 @@ const riferimenti = {
   firme: redazione.map(firma => firma.name),
 }
 
+// Il messaggio di errore porta il file e un problema per riga.
+const expectNoProblems = (file: string, problems: string[]) =>
+  expect(problems, `${file}\n  - ${problems.join('\n  - ')}`).toEqual([])
+
 const articles = readdirSync(NEWS, 'utf-8')
   .filter(file => file.endsWith('.md'))
   .sort()
@@ -29,6 +34,17 @@ describe('content/pages/about.yml', () => {
   it('non ha il blocco dei contatti né un indirizzo email', () => {
     expect(about).not.toHaveProperty('contact')
     expect(readFileSync(ABOUT, 'utf-8')).not.toMatch(/[\w.+-]+@[\w-]+\.\w+/)
+  })
+
+  it('ha un’immagine entro i limiti', () => {
+    const problems = imageProblems(String(about.hero?.image ?? ''), PUBLIC)
+    expectNoProblems('content/pages/about.yml', problems.map(problem => `hero.image: ${problem}`))
+  })
+})
+
+describe('immagine predefinita per i social', () => {
+  it('è entro i limiti', () => {
+    expectNoProblems('app/utils/immagini.ts', imageProblems(IMMAGINE_SOCIAL_PREDEFINITA, PUBLIC))
   })
 })
 
@@ -42,10 +58,9 @@ describe('content/news', () => {
     expect(riferimenti.firme).not.toEqual([])
   })
 
-  it.each(articles)('%s ha tutti i campi, con Sezione e Firma del giornale', (file) => {
-    const { data } = matter(readFileSync(join(NEWS, file), 'utf-8'))
-    const errors = validateArticle(data, riferimenti)
-    // Il messaggio di errore porta il file e un problema per riga.
-    expect(errors, `content/news/${file}\n  - ${errors.join('\n  - ')}`).toEqual([])
+  it.each(articles)('%s ha tutti i campi, con Sezione e Firma del giornale, e immagini entro i limiti', async (file) => {
+    const { data, content } = matter(readFileSync(join(NEWS, file), 'utf-8'))
+    expectNoProblems(`content/news/${file}`,
+      [...validateArticle(data, riferimenti), ...await validateBodyImages(content, PUBLIC)])
   })
 })
