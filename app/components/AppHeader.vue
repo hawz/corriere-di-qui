@@ -5,6 +5,13 @@ const menuOpen = ref(false)
 // Chiude il menu al cambio di rotta
 watch(() => route.path, () => { menuOpen.value = false })
 
+// La build non prerenderizza gli indirizzi con `?sezione=`: la pagina parte senza filtro, poi Nuxt passa all'indirizzo vero.
+// Nuxt 4.7 lo fa appena è pronta la pagina. L'intestazione, che fa `await`, può idratarsi dopo: parte già dall'indirizzo vero,
+// e in produzione Vue non corregge le classi diverse dall'HTML, quindi la voce attiva del menu resta quella della build.
+// La `key` che cambia al montaggio ridisegna il menu.
+const montata = shallowRef(false)
+onMounted(() => { montata.value = true })
+
 const page = await usePageData('pages/home')
 const sezioni = await useSezioniConArticoli()
 
@@ -42,7 +49,7 @@ const today = computed(() => formatDate(new Date(), { weekday: 'long' }))
       <div class="hidden md:flex justify-between items-center text-xs text-muted
                   border-t border-rule mt-2 pt-2 font-sans">
         <span>{{ today }}</span>
-        <nav class="flex gap-5">
+        <nav :key="String(montata)" class="flex gap-5">
           <NuxtLink to="/" class="uppercase tracking-widest hover:text-newsred transition-colors"
             :class="{ 'text-newsred border-b border-newsred': route.path === '/' }">
             Prima Pagina
