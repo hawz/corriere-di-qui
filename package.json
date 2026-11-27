@@ -10,7 +10,8 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "test": "vitest run --project content --project unit",
-    "test:site": "vitest run --project site"
+    "test:site": "vitest run --project site",
+    "verify:deploy": "node scripts/verify-deploy.ts"
   },
   "dependencies": {
     "@nuxt/content": "^3.12.0",

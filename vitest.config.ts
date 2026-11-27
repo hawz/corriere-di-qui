@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config'
 
 // Tre gruppi di test, in Node e senza runtime Nuxt:
-// `content` legge i file del repo; `unit` prova le funzioni di app/utils/;
+// `content` legge i file del repo; `unit` prova le funzioni di app/utils/ e di scripts/;
 // `site` legge il sito generato, quindi richiede `npm run generate`.
 export default defineConfig({
   test: {
