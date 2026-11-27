@@ -12,7 +12,7 @@ Le issue e le spec di questo repo sono issue su GitHub (`hawz/corriere-di-qui`).
 - **Contare i blocchi aperti**: `gh api repos/<owner>/<repo>/issues/<n> --jq .issue_dependencies_summary.blocked_by` (solo le bloccanti aperte; 0 significa che si può iniziare). `gh issue view <n> --json blockedBy` elenca anche quelle chiuse, quindi filtra: `--jq '[.blockedBy.nodes[] | select(.state == "OPEN")] | length'`.
 - **Commentare**: `gh issue comment <numero> --body "..."`
 - **Aggiungere o togliere etichette**: `gh issue edit <numero> --add-label "..."` / `--remove-label "..."`
-- **Chiudere**: scrivi la motivazione con `gh issue comment <numero> --body "..."`, poi `gh issue close <numero>`. Su una issue già chiusa, `gh issue close --comment` scarta il commento ed esce comunque con 0. Per un ticket implementato segui prima **Consegna di un ticket**.
+- **Chiudere**: scrivi la motivazione con `gh issue comment <numero> --body "..."`, poi `gh issue close <numero>`. Su una issue già chiusa, `gh issue close --comment` scarta il commento ed esce comunque con 0. Per un ticket implementato la chiusura segue **Consegna di un ticket**.
 
 `gh` ricava il repo da `git remote -v` quando è eseguito dentro un clone.
 
@@ -20,19 +20,26 @@ Apri issue solo nei repo dell'utente. Non aprirne mai in `mattpocock/skills` (il
 
 ## Consegna di un ticket
 
-Un ticket implementato passa da questi passi, in ordine. Decide l'utente quando unire la PR e quando chiudere la issue.
+Un ticket implementato passa da questi passi, in ordine. Decide l'utente quando unire la PR. Di norma il merge chiude la issue, quindi anteprima, spunte e resoconto vengono prima.
 
 1. **Branch.** Passa su `main`, fai `git pull`, e solo dopo crea il branch del ticket. Vale per ogni ticket, anche subito dopo il merge del precedente.
 2. **Implementazione.** A lavoro finito e verificato, fai il commit sul branch.
-3. **PR.** Fai push e apri la PR subito, senza aspettare la richiesta dell'utente, anche fuori da un worktree. Se per quel lavoro l'utente chiede di aspettare, vale la sua richiesta. Il testo è in italiano, ha una lista di cose da controllare sull'anteprima e cita il ticket con `Refs #<numero>`: con `Closes` il merge chiuderebbe la issue prima delle verifiche.
-4. **Anteprima.** Su richiesta, verifica `https://deploy-preview-<numero-PR>--corriere-di-qui.netlify.app` sul commit in testa alla PR: CI e deploy riusciti, e ogni voce della lista provata oppure dichiarata non verificata.
-5. **Merge.** Lo fa l'utente.
-6. **Dopo il merge.** Aggiorna `main` in locale, controlla che la CI sul commit di merge sia passata e confronta la produzione con l'anteprima verificata.
-7. **Chiusura**, solo con l'ok dell'utente:
+3. **PR.** Fai push e apri la PR subito, senza aspettare la richiesta dell'utente, anche fuori da un worktree. Se per quel lavoro l'utente chiede di aspettare, vale la sua richiesta. Il testo è in italiano e ha una lista di cose da controllare sull'anteprima. Cita il ticket così:
+   - `Closes #<numero>` se la PR completa il ticket: al merge GitHub chiude la issue;
+   - `Refs #<numero>` se la PR copre solo una parte del ticket, o se un criterio si può verificare solo dopo il merge. Anche la spec padre si cita solo con `Refs`.
+
+   Nei messaggi di commit usa solo `Refs`: un `Closes` in un commit chiude la issue al merge, qualunque cosa dica il testo della PR.
+4. **Anteprima.** Subito dopo aver aperto la PR, senza aspettare la richiesta dell'utente, verifica `https://deploy-preview-<numero-PR>--corriere-di-qui.netlify.app` sul commit in testa alla PR: CI e deploy riusciti, e ogni voce della lista provata oppure dichiarata non verificata. Finché non hai dato l'esito, di' all'utente di aspettare a unire; vale anche se CI o deploy non sono ancora finiti. Un nuovo commit sulla PR richiede una nuova verifica.
+5. **Prima del merge**, sulla issue:
    - Se durante il lavoro il ticket è cambiato (per esempio ha un'estensione in più), proponi di aggiornarne il testo e fallo solo se l'utente è d'accordo.
-   - Spunta i criteri di accettazione verificati: rileggi il testo attuale (`gh issue view <numero> --json body --jq .body`), modificalo e ricaricalo con `gh issue edit <numero> --body-file <file>`. Un criterio non verificato resta da spuntare, e va detto all'utente prima di chiudere.
-   - Chiudi come completata con un commento in italiano: cosa è cambiato, verifiche fatte, scostamenti dal ticket e limiti noti.
-   - Rileggi la issue e controlla stato e spunte.
+   - Spunta i criteri di accettazione verificati: rileggi il testo attuale (`gh issue view <numero> --json body --jq .body`), modificalo e ricaricalo con `gh issue edit <numero> --body-file <file>`. Un criterio che dipende dal giudizio dell'utente (per esempio la resa visiva) si spunta dopo il suo sì. Un criterio non verificato resta da spuntare.
+   - Commenta in italiano: cosa è cambiato, verifiche fatte, scostamenti dal ticket e limiti noti.
+   - Di' all'utente se la PR è pronta per il merge, e quali criteri restano da spuntare.
+6. **Merge.** Lo fa l'utente. Con `Closes`, GitHub chiude la issue ma non spunta i criteri e non scrive il resoconto.
+7. **Dopo il merge.** Aggiorna `main` in locale, controlla che la CI sul commit di merge sia passata e confronta la produzione con l'anteprima verificata. Poi rileggi la issue e controlla stato e spunte.
+   - Se una verifica fallisce, riapri la issue (`gh issue reopen <numero>`), dillo all'utente e correggi con una nuova PR.
+   - Se l'utente ha unito prima dell'esito sull'anteprima, diglielo, fai in produzione le verifiche mancanti e completa spunte e commento.
+   - Se la PR usava `Refs` e con il merge il ticket è completo, chiudilo come completato solo con l'ok dell'utente, dopo le spunte e il commento del passo 5.
 
 ## Pull requests as a triage surface
 
