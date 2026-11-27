@@ -6,6 +6,7 @@ Issue e documenti del progetto si scrivono in italiano.
 
 - **Carica le skill Vue prima di toccare codice Vue** (file `.vue`, composable, pagine, layout, routing): con lo strumento Skill carica `vue-skills-bundle:vue-best-practices`, più le altre skill Vue pertinenti (router, test, debug, composable), e seguile. Vale anche per le modifiche piccole.
 - **Un branch e una PR per ogni ticket o Articolo.** Non si lavora direttamente su `main`: il merge della PR pubblica il sito (vedi `docs/adr/0001-sito-statico-pubblicazione-con-il-merge.md`).
+- **Prima di iniziare, verificare o chiudere un ticket** leggi «Consegna di un ticket» in `docs/agents/issue-tracker.md`.
 
 ## Comandi locali
 
@@ -15,7 +16,7 @@ La versione di Node è in `.nvmrc` (`nvm use`).
 |---|---|
 | `npm run dev` | Server di sviluppo |
 | `npm run lint` | ESLint tramite `@nuxt/eslint` (`eslint.config.mjs`) |
-| `npm run test` | Vitest, senza build: i test sui file del repo in `tests/content/` (Articoli e versione di Node) e sulle funzioni di `app/utils/` in `tests/unit/` |
+| `npm run test` | Vitest, senza build: i test sui file del repo in `tests/content/` e sulle funzioni di `app/utils/` in `tests/unit/` |
 | `npm run generate` | Build statica in `.output/public` |
 | `npm run test:site` | Vitest: i test sul sito generato in `tests/site/`; prima serve `npm run generate` |
 

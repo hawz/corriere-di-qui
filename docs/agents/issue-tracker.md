@@ -12,11 +12,27 @@ Le issue e le spec di questo repo sono issue su GitHub (`hawz/corriere-di-qui`).
 - **Contare i blocchi aperti**: `gh api repos/<owner>/<repo>/issues/<n> --jq .issue_dependencies_summary.blocked_by` (solo le bloccanti aperte; 0 significa che si può iniziare). `gh issue view <n> --json blockedBy` elenca anche quelle chiuse, quindi filtra: `--jq '[.blockedBy.nodes[] | select(.state == "OPEN")] | length'`.
 - **Commentare**: `gh issue comment <numero> --body "..."`
 - **Aggiungere o togliere etichette**: `gh issue edit <numero> --add-label "..."` / `--remove-label "..."`
-- **Chiudere**: scrivi la motivazione con `gh issue comment <numero> --body "..."`, poi `gh issue close <numero>`. Su una issue già chiusa, `gh issue close --comment` scarta il commento ed esce comunque con 0.
+- **Chiudere**: scrivi la motivazione con `gh issue comment <numero> --body "..."`, poi `gh issue close <numero>`. Su una issue già chiusa, `gh issue close --comment` scarta il commento ed esce comunque con 0. Per un ticket implementato segui prima **Consegna di un ticket**.
 
 `gh` ricava il repo da `git remote -v` quando è eseguito dentro un clone.
 
 Apri issue solo nei repo dell'utente. Non aprirne mai in `mattpocock/skills` (il repo da cui arrivano queste skill). In un fork, `gh` può puntare al repo di origine: prima del primo `gh issue create` di una sessione controlla la destinazione con `gh repo view --json nameWithOwner` e, se non è un repo dell'utente, chiedi conferma.
+
+## Consegna di un ticket
+
+Un ticket implementato passa da questi passi, in ordine. Decide l'utente quando aprire la PR, quando unirla e quando chiudere la issue.
+
+1. **Branch.** Passa su `main`, fai `git pull`, e solo dopo crea il branch del ticket. Vale per ogni ticket, anche subito dopo il merge del precedente.
+2. **Implementazione.** Il lavoro finisce con un commit sul branch. Push e PR aspettano la richiesta dell'utente.
+3. **PR.** Il testo è in italiano, ha una lista di cose da controllare sull'anteprima e cita il ticket con `Refs #<numero>`: con `Closes` il merge chiuderebbe la issue prima delle verifiche.
+4. **Anteprima.** Su richiesta, verifica `https://deploy-preview-<numero-PR>--corriere-di-qui.netlify.app` sul commit in testa alla PR: CI e deploy riusciti, e ogni voce della lista provata oppure dichiarata non verificata.
+5. **Merge.** Lo fa l'utente.
+6. **Dopo il merge.** Aggiorna `main` in locale, controlla che la CI sul commit di merge sia passata e confronta la produzione con l'anteprima verificata.
+7. **Chiusura**, solo con l'ok dell'utente:
+   - Se durante il lavoro il ticket è cambiato (per esempio ha un'estensione in più), proponi di aggiornarne il testo e fallo solo se l'utente è d'accordo.
+   - Spunta i criteri di accettazione verificati: rileggi il testo attuale (`gh issue view <numero> --json body --jq .body`), modificalo e ricaricalo con `gh issue edit <numero> --body-file <file>`. Un criterio non verificato resta da spuntare, e va detto all'utente prima di chiudere.
+   - Chiudi come completata con un commento in italiano: cosa è cambiato, verifiche fatte, scostamenti dal ticket e limiti noti.
+   - Rileggi la issue e controlla stato e spunte.
 
 ## Pull requests as a triage surface
 
