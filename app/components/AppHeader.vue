@@ -1,3 +1,16 @@
+<script setup lang="ts">
+const route = useRoute()
+const menuOpen = ref(false)
+
+// Chiude il menu al cambio di rotta
+watch(() => route.path, () => { menuOpen.value = false })
+
+const page = await usePageData('pages/home')
+const sezioni = await useSezioniConArticoli()
+
+const today = computed(() => formatDate(new Date(), { weekday: 'long' }))
+</script>
+
 <template>
   <header>
     <!-- Ticker -->
@@ -85,19 +98,6 @@
     </nav>
   </header>
 </template>
-
-<script setup>
-const route = useRoute()
-const menuOpen = ref(false)
-
-// Chiude il menu al cambio di rotta
-watch(() => route.path, () => { menuOpen.value = false })
-
-const page = await usePageData('pages/home')
-const sezioni = await useSezioniConArticoli()
-
-const today = computed(() => formatDate(new Date(), { weekday: 'long' }))
-</script>
 
 <style scoped>
 .ticker-wrap {

@@ -6,6 +6,8 @@ export default defineContentConfig({
     pages: defineCollection({
       type: 'data',
       source: 'pages/*.yml',
+      // Il tipo di una collezione `data` richiede uno schema. È vuoto: i campi dei file restano in `meta` (vedi usePageData).
+      schema: z.object({}),
     }),
     news: defineCollection({
       type: 'page',

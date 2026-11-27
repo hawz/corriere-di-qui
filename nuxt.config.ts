@@ -17,6 +17,8 @@ export default defineNuxtConfig({
     provider: 'netlifyImageCdn',
     // L'unico punto in cui è scritto il WebP; un altro formato lo chiede solo l'immagine per i social, in usePageSeo.
     // Senza, la CDN darebbe il PNG originale a chi chiede `Accept: */*`.
+    // I tipi del modulo non prevedono `modifiers`, che però funziona: lo controllano i test sul sito generato.
+    // @ts-expect-error Se i tipi si aggiornano, il controllo segnala che questa riga va tolta.
     netlifyImageCdn: { modifiers: { format: 'webp' } },
   },
 

@@ -96,6 +96,12 @@ function fakeSite() {
   return { build, remote, publicFiles, requests, faults, writePage, verify }
 }
 
+/** Il testo di una pagina del sito finto. */
+function textOf(reply: Reply | undefined): string {
+  if (typeof reply?.body !== 'string') throw new Error('la risposta non è una pagina')
+  return reply.body
+}
+
 describe('verifyDeploy: pagine', () => {
   it('non segnala niente se le pagine rispondono e il resto è 404', async () => {
     const { verify } = fakeSite()
@@ -159,7 +165,7 @@ describe('verifyDeploy: confronto con la build locale', () => {
   /** Cambia la pagina di /news/uno sul sito, non nella build. */
   const publish = async (change: (page: string) => string) => {
     const { remote, verify } = fakeSite()
-    remote['/news/uno']!.body = change(remote['/news/uno']!.body!)
+    remote['/news/uno']!.body = change(textOf(remote['/news/uno']))
     return (await verify()).problems
   }
 
@@ -185,7 +191,7 @@ describe('verifyDeploy: confronto con la build locale', () => {
     const { build, remote, verify } = fakeSite()
     const [first, second] = [image('uno.webp', [400]), image('prima.webp', [400])]
     build['/news/uno'] = build['/news/uno']!.replace('</body>', `${first}${second}</body>`)
-    remote['/news/uno']!.body = remote['/news/uno']!.body!.replace('</body>', `${second}${first}</body>`)
+    remote['/news/uno']!.body = textOf(remote['/news/uno']).replace('</body>', `${second}${first}</body>`)
     expect((await verify()).problems).toEqual([
       { page: '/news/uno', message: 'le immagini non coincidono con la build locale: stessi indirizzi, in un ordine diverso' },
     ])
@@ -209,7 +215,7 @@ describe('verifyDeploy: confronto con la build locale', () => {
     const { build, remote, verify } = fakeSite()
     const without = (page: string) => page.replace(/<meta name="twitter:image"[^>]*>/, '')
     build['/news/uno'] = without(build['/news/uno']!)
-    remote['/news/uno']!.body = without(remote['/news/uno']!.body!)
+    remote['/news/uno']!.body = without(textOf(remote['/news/uno']))
     expect((await verify()).problems).toEqual([{ page: '/news/uno', message: 'manca il meta twitter:image' }])
   })
 
@@ -217,7 +223,7 @@ describe('verifyDeploy: confronto con la build locale', () => {
     const { build, remote, verify } = fakeSite()
     const withIpx = (page: string) => page.replace('<body>', '<body><img src="/_ipx/f_webp/images/uno.webp">')
     build['/news/uno'] = withIpx(build['/news/uno']!)
-    remote['/news/uno']!.body = withIpx(remote['/news/uno']!.body!)
+    remote['/news/uno']!.body = withIpx(textOf(remote['/news/uno']))
     expect((await verify()).problems).toEqual([
       { page: '/news/uno', message: 'indirizzo con /_ipx/: /_ipx/f_webp/images/uno.webp' },
     ])

@@ -1,3 +1,31 @@
+<script setup lang="ts">
+import type { NewsCollectionItem } from '@nuxt/content'
+
+const { data: articles } = await useAsyncData('home-articles', () =>
+  queryCollection('news')
+    .order('date', 'DESC')
+    .limit(ARTICOLI_IN_HOME)
+    .all()
+)
+
+const home = computed(() => componiHome(articles.value ?? []))
+const lead = computed(() => home.value.lead)
+const sidebar = computed(() => home.value.sidebar)
+const grid = computed(() => home.value.grid)
+
+function slug(art: NewsCollectionItem) {
+  return art.stem?.split('/').pop() ?? ''
+}
+
+const site = useSiteConfig()
+
+usePageSeo({
+  title: site.siteName,
+  description: site.description,
+  url: site.siteUrl,
+})
+</script>
+
 <template>
   <div class="max-w-5xl mx-auto px-4 md:px-6 py-6 md:py-8">
 
@@ -76,29 +104,3 @@
 
   </div>
 </template>
-
-<script setup>
-const { data: articles } = await useAsyncData('home-articles', () =>
-  queryCollection('news')
-    .order('date', 'DESC')
-    .limit(ARTICOLI_IN_HOME)
-    .all()
-)
-
-const home = computed(() => componiHome(articles.value ?? []))
-const lead = computed(() => home.value.lead)
-const sidebar = computed(() => home.value.sidebar)
-const grid = computed(() => home.value.grid)
-
-function slug(art) {
-  return art.stem?.split('/').pop() ?? ''
-}
-
-const site = useSiteConfig()
-
-usePageSeo({
-  title: site.siteName,
-  description: site.description,
-  url: site.siteUrl,
-})
-</script>

@@ -1,3 +1,48 @@
+<script setup lang="ts">
+import type { NewsCollectionItem } from '@nuxt/content'
+
+const route = useRoute()
+const router = useRouter()
+
+const page = await usePageData('pages/news')
+
+const { data: articles } = await useAsyncData('news-articles', () =>
+  queryCollection('news').order('date', 'DESC').all()
+)
+
+const sezioni = computed(() => sezioniConArticoli(articles.value ?? []))
+
+// Legge sempre dalla URL, non da un ref locale
+const activeSezione = computed(() => route.query.sezione ?? null)
+
+// Aggiorna la URL quando si cambia Sezione
+function setSezione(slug: string | null) {
+  router.push({
+    query: slug ? { sezione: slug } : {},
+  })
+}
+
+const filtered = computed(() => {
+  if (!activeSezione.value) return articles.value ?? []
+  return (articles.value ?? []).filter(a => a.sezione === activeSezione.value)
+})
+
+const featured = computed(() => filtered.value[0] ?? null)
+const rest = computed(() => filtered.value.slice(1))
+
+function slug(art: NewsCollectionItem) {
+  return art.stem?.split('/').pop() ?? ''
+}
+
+const site = useSiteConfig()
+
+usePageSeo({
+  title: 'News',
+  description: page.value?.hero?.subheading,
+  url: `${site.siteUrl}/news`,
+})
+</script>
+
 <template>
   <div class="max-w-5xl mx-auto px-6 py-8">
 
@@ -66,46 +111,3 @@
 
   </div>
 </template>
-
-<script setup>
-const route = useRoute()
-const router = useRouter()
-
-const page = await usePageData('pages/news')
-
-const { data: articles } = await useAsyncData('news-articles', () =>
-  queryCollection('news').order('date', 'DESC').all()
-)
-
-const sezioni = computed(() => sezioniConArticoli(articles.value ?? []))
-
-// Legge sempre dalla URL, non da un ref locale
-const activeSezione = computed(() => route.query.sezione ?? null)
-
-// Aggiorna la URL quando si cambia Sezione
-function setSezione(slug) {
-  router.push({
-    query: slug ? { sezione: slug } : {},
-  })
-}
-
-const filtered = computed(() => {
-  if (!activeSezione.value) return articles.value ?? []
-  return (articles.value ?? []).filter(a => a.sezione === activeSezione.value)
-})
-
-const featured = computed(() => filtered.value[0] ?? null)
-const rest = computed(() => filtered.value.slice(1))
-
-function slug(art) {
-  return art.stem?.split('/').pop() ?? ''
-}
-
-const site = useSiteConfig()
-
-usePageSeo({
-  title: 'News',
-  description: page.value?.hero?.subheading,
-  url: `${site.siteUrl}/news`,
-})
-</script>

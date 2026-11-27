@@ -1,3 +1,16 @@
+<script setup lang="ts">
+const page = await usePageData('pages/about')
+
+const site = useSiteConfig()
+
+usePageSeo({
+  title: page.value?.title ?? 'Chi siamo',
+  description: page.value?.bio?.paragraphs?.[0],
+  image: page.value?.hero?.image,
+  url: `${site.siteUrl}/about`,
+})
+</script>
+
 <template>
   <div v-if="page" class="max-w-5xl mx-auto px-6 py-10">
 
@@ -54,16 +67,3 @@
 
   </div>
 </template>
-
-<script setup>
-const page = await usePageData('pages/about')
-
-const site = useSiteConfig()
-
-usePageSeo({
-  title: page.value?.title ?? 'Chi siamo',
-  description: page.value?.bio?.paragraphs?.[0],
-  image: page.value?.hero?.image,
-  url: `${site.siteUrl}/about`,
-})
-</script>
