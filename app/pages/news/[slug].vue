@@ -1,3 +1,42 @@
+<script setup>
+const route = useRoute()
+
+const { data: article } = await useAsyncData(`article-${route.params.slug}`, () =>
+  queryCollection('news').where('stem', '=', `news/${route.params.slug}`).first()
+)
+
+// Un Articolo inesistente è un vero 404: la pagina la mostra app/error.vue.
+if (!article.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Articolo non trovato', fatal: true })
+}
+
+const { data: allArticles } = await useAsyncData('all-articles-nav', () =>
+  queryCollection('news').order('date', 'DESC').all()
+)
+
+const currentIndex = computed(() =>
+  (allArticles.value ?? []).findIndex(a => slug(a) === route.params.slug)
+)
+const prev = computed(() => allArticles.value?.[currentIndex.value + 1] ?? null)
+const next = computed(() => allArticles.value?.[currentIndex.value - 1] ?? null)
+
+function slug(art) {
+  return art.stem?.split('/').pop() ?? ''
+}
+
+const site = useSiteConfig()
+
+usePageSeo({
+  title: article.value.title,
+  description: article.value.description,
+  image: article.value.image,
+  url: `${site.siteUrl}/news/${route.params.slug}`,
+  type: 'article',
+  publishedAt: article.value.date,
+  firma: article.value.firma,
+})
+</script>
+
 <template>
   <div class="max-w-3xl mx-auto px-4 md:px-6 py-8 md:py-10">
 
@@ -63,45 +102,6 @@
 
   </div>
 </template>
-
-<script setup>
-const route = useRoute()
-
-const { data: article } = await useAsyncData(`article-${route.params.slug}`, () =>
-  queryCollection('news').where('stem', '=', `news/${route.params.slug}`).first()
-)
-
-// Un Articolo inesistente è un vero 404: la pagina la mostra app/error.vue.
-if (!article.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Articolo non trovato', fatal: true })
-}
-
-const { data: allArticles } = await useAsyncData('all-articles-nav', () =>
-  queryCollection('news').order('date', 'DESC').all()
-)
-
-const currentIndex = computed(() =>
-  (allArticles.value ?? []).findIndex(a => slug(a) === route.params.slug)
-)
-const prev = computed(() => allArticles.value?.[currentIndex.value + 1] ?? null)
-const next = computed(() => allArticles.value?.[currentIndex.value - 1] ?? null)
-
-function slug(art) {
-  return art.stem?.split('/').pop() ?? ''
-}
-
-const site = useSiteConfig()
-
-usePageSeo({
-  title: article.value.title,
-  description: article.value.description,
-  image: article.value.image,
-  url: `${site.siteUrl}/news/${route.params.slug}`,
-  type: 'article',
-  publishedAt: article.value.date,
-  firma: article.value.firma,
-})
-</script>
 
 <style>
 .prose-article {

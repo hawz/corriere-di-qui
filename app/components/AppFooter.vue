@@ -1,3 +1,10 @@
+<script setup>
+const page = await usePageData('pages/home')
+const sezioni = await useSezioniConArticoli()
+
+const year = new Date().getFullYear()
+</script>
+
 <template>
   <footer class="border-t-[3px] border-ink mt-12">
     <div class="max-w-5xl mx-auto px-4 md:px-6 py-6 flex flex-col gap-6 md:flex-row md:justify-between md:items-start">
@@ -30,10 +37,3 @@
     </div>
   </footer>
 </template>
-
-<script setup>
-const page = await usePageData('pages/home')
-const sezioni = await useSezioniConArticoli()
-
-const year = new Date().getFullYear()
-</script>

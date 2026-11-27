@@ -1,3 +1,10 @@
+<script setup>
+defineProps({
+  article: { type: Object, required: true },
+  large: { type: Boolean, default: false },
+})
+</script>
+
 <template>
   <article class="flex flex-col gap-2">
     <!-- Immagine -->
@@ -36,10 +43,3 @@
     </div>
   </article>
 </template>
-
-<script setup>
-defineProps({
-  article: { type: Object, required: true },
-  large: { type: Boolean, default: false },
-})
-</script>
