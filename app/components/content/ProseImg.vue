@@ -1,11 +1,11 @@
 <!-- Le immagini nel testo di un Articolo. Sostituisce il ProseImg di MDC, che usa NuxtImg ma senza `sizes`. -->
-<script setup>
-defineProps({
-  src: { type: String, default: '' },
-  alt: { type: String, default: '' },
-  width: { type: [String, Number], default: undefined },
-  height: { type: [String, Number], default: undefined },
-})
+<script setup lang="ts">
+const { src = '', alt = '', width = undefined, height = undefined } = defineProps<{
+  src?: string
+  alt?: string
+  width?: string | number
+  height?: string | number
+}>()
 </script>
 
 <template>

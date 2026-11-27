@@ -16,12 +16,13 @@ La versione di Node è in `.nvmrc` (`nvm use`).
 |---|---|
 | `npm run dev` | Server di sviluppo |
 | `npm run lint` | ESLint tramite `@nuxt/eslint` (`eslint.config.mjs`) |
+| `npm run typecheck` | Controllo dei tipi di tutto il TypeScript: l'app tramite `nuxt typecheck`; test, script e le configurazioni di Vitest, Tailwind e dei contenuti tramite `tsconfig.tools.json` |
 | `npm run test` | Vitest, senza build: i test sui file del repo in `tests/content/` e sulle funzioni di `app/utils/` in `tests/unit/` |
 | `npm run generate` | Build statica in `.output/public` |
 | `npm run test:site` | Vitest: i test sul sito generato in `tests/site/`; prima serve `npm run generate` |
 | `npm run verify:deploy -- <url>` | Verifica un sito pubblicato (anteprima di Netlify o produzione) confrontandolo con la build locale in `.output/public` dello stesso commit; prima serve `npm run generate`. La resa delle immagini si guarda a occhio |
 
-La CI (`.github/workflows/ci.yml`) esegue installazione, lint, test, `nuxt generate` e test del sito generato su ogni PR e su ogni push su `main`.
+La CI (`.github/workflows/ci.yml`) esegue installazione, lint, controllo dei tipi, test, `nuxt generate` e test del sito generato su ogni PR e su ogni push su `main`.
 
 ## Agent skills
 

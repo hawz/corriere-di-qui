@@ -32,6 +32,8 @@ jobs:
 
       - run: npm run lint
 
+      - run: npm run typecheck
+
       - run: npm run test
 
       # La build statica. Netlify pubblica per conto suo.

@@ -1,4 +1,6 @@
-<script setup>
+<script setup lang="ts">
+import type { NewsCollectionItem } from '@nuxt/content'
+
 const { data: articles } = await useAsyncData('home-articles', () =>
   queryCollection('news')
     .order('date', 'DESC')
@@ -11,7 +13,7 @@ const lead = computed(() => home.value.lead)
 const sidebar = computed(() => home.value.sidebar)
 const grid = computed(() => home.value.grid)
 
-function slug(art) {
+function slug(art: NewsCollectionItem) {
   return art.stem?.split('/').pop() ?? ''
 }
 

@@ -1,4 +1,6 @@
-<script setup>
+<script setup lang="ts">
+import type { NewsCollectionItem } from '@nuxt/content'
+
 const route = useRoute()
 const router = useRouter()
 
@@ -14,7 +16,7 @@ const sezioni = computed(() => sezioniConArticoli(articles.value ?? []))
 const activeSezione = computed(() => route.query.sezione ?? null)
 
 // Aggiorna la URL quando si cambia Sezione
-function setSezione(slug) {
+function setSezione(slug: string | null) {
   router.push({
     query: slug ? { sezione: slug } : {},
   })
@@ -28,7 +30,7 @@ const filtered = computed(() => {
 const featured = computed(() => filtered.value[0] ?? null)
 const rest = computed(() => filtered.value.slice(1))
 
-function slug(art) {
+function slug(art: NewsCollectionItem) {
   return art.stem?.split('/').pop() ?? ''
 }
 

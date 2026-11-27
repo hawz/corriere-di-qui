@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const page = await usePageData('pages/home')
 const sezioni = await useSezioniConArticoli()
 

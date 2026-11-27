@@ -1,0 +1,16 @@
+{
+  // I file fuori dall'app, che il controllo di Nuxt non guarda: test, script e le configurazioni qui sotto.
+  // Un nuovo file TypeScript nella radice del repo va aggiunto a `include`.
+  "extends": "./.nuxt/tsconfig.node.json",
+  "compilerOptions": {
+    // Node esegue gli script così come sono, quindi gli import hanno l'estensione `.ts`.
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    // Il controllo salva qui il suo stato: senza, lo scriverebbe nella radice del repo.
+    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tools.tsbuildinfo",
+    // Solo Node: senza `lib`, uno script che usa `document` passerebbe il controllo.
+    "lib": ["ESNext"],
+    "types": ["node"]
+  },
+  "include": ["./content.config.ts", "./tailwind.config.ts", "./vitest.config.ts", "./scripts/**/*.ts", "./tests/**/*.ts"]
+}

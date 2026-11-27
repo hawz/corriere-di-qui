@@ -1,8 +1,10 @@
-<script setup>
-defineProps({
-  article: { type: Object, required: true },
-  large: { type: Boolean, default: false },
-})
+<script setup lang="ts">
+import type { NewsCollectionItem } from '@nuxt/content'
+
+defineProps<{
+  article: NewsCollectionItem
+  large?: boolean
+}>()
 </script>
 
 <template>
