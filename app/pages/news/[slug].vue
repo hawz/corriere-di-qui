@@ -36,7 +36,7 @@
 
     <!-- Immagine hero -->
     <div v-if="article.image" class="aspect-[16/9] overflow-hidden bg-rule mb-8">
-      <img :src="article.image" :alt="article.title" class="w-full h-full object-cover" />
+      <NuxtImg :src="article.image" :alt="article.title" sizes="sm:100vw md:720px" class="w-full h-full object-cover" />
     </div>
 
     <!-- Corpo articolo -->
@@ -90,11 +90,13 @@ function slug(art) {
 }
 
 const site = useSiteConfig()
+const img = useImage()
 
 usePageSeo({
   title: article.value.title,
   description: article.value.description,
-  image: article.value.image,
+  // Prova #9: og:image JPEG a 1200 px.
+  image: img(article.value.image, { width: 1200, format: 'jpg' }),
   url: `${site.siteUrl}/news/${route.params.slug}`,
   type: 'article',
   publishedAt: article.value.date,
