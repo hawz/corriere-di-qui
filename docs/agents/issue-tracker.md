@@ -20,11 +20,11 @@ Apri issue solo nei repo dell'utente. Non aprirne mai in `mattpocock/skills` (il
 
 ## Consegna di un ticket
 
-Un ticket implementato passa da questi passi, in ordine. Decide l'utente quando aprire la PR, quando unirla e quando chiudere la issue.
+Un ticket implementato passa da questi passi, in ordine. Decide l'utente quando unire la PR e quando chiudere la issue.
 
 1. **Branch.** Passa su `main`, fai `git pull`, e solo dopo crea il branch del ticket. Vale per ogni ticket, anche subito dopo il merge del precedente.
-2. **Implementazione.** Il lavoro finisce con un commit sul branch. Push e PR aspettano la richiesta dell'utente.
-3. **PR.** Il testo è in italiano, ha una lista di cose da controllare sull'anteprima e cita il ticket con `Refs #<numero>`: con `Closes` il merge chiuderebbe la issue prima delle verifiche.
+2. **Implementazione.** A lavoro finito e verificato, fai il commit sul branch.
+3. **PR.** Fai push e apri la PR subito, senza aspettare la richiesta dell'utente, anche fuori da un worktree. Se per quel lavoro l'utente chiede di aspettare, vale la sua richiesta. Il testo è in italiano, ha una lista di cose da controllare sull'anteprima e cita il ticket con `Refs #<numero>`: con `Closes` il merge chiuderebbe la issue prima delle verifiche.
 4. **Anteprima.** Su richiesta, verifica `https://deploy-preview-<numero-PR>--corriere-di-qui.netlify.app` sul commit in testa alla PR: CI e deploy riusciti, e ogni voce della lista provata oppure dichiarata non verificata.
 5. **Merge.** Lo fa l'utente.
 6. **Dopo il merge.** Aggiorna `main` in locale, controlla che la CI sul commit di merge sia passata e confronta la produzione con l'anteprima verificata.
